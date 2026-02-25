@@ -1,12 +1,17 @@
 services:
   apache:
-    image: ghcr.io/ifpb/new_wave/wave-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile.server
     container_name: server
     #ports:
     #- "80:80"
+    network_mode: none
 
   client_container:
-    image: ghcr.io/ifpb/new_wave/wave-vlc
+    build: 
+      context: .
+      dockerfile: Dockerfile.client
     container_name: client
     privileged: true
     #environment:
@@ -17,6 +22,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
     depends_on:
       - apache
+    network_mode: none
 
   prometheus:
     image: prom/prometheus:latest

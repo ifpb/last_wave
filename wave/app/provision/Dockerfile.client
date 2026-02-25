@@ -11,12 +11,12 @@ RUN set -eux; \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3 \
+        iproute2 \
+        tcpdump \
+        iputils-ping \
         python3-scapy \
         vlc \
         sudo \
-        tcpdump \
-        iproute2 \
-        iputils-ping \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/vlc

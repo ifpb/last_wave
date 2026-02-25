@@ -46,5 +46,5 @@ LAST_SWITCH=$(cat "$SWITCH_FILE")
 sudo ip link set s1 up || true
 sudo ip link set "$LAST_SWITCH" up || true
 
-echo "[WAVE 🌊] Mininet Ready 🌐"
+echo "[WAVE 🌊] Mininet Ready"
 

@@ -1,3 +1,111 @@
+partindo da premissar que a rede mininet já esta ativa e operante.
+
+1. os containers vão subir
+def down(self, platform):
+        # Destroy the environment (Docker or Vagrant and Mininet)
+        command = "vagrant destroy -f" if platform == "vm" else "docker compose down"
+        self.execute_command(command)
+        
+essa função na classe provision que sobe o cenario.
+
+2. esses containers vão precisar ter uma interface que terá o ip que vem do config.yaml, perceba eu já tenho uma função que faz algo parecido com o que eu preciso agora
+
+def get_topology_type(self):
+        config_path = Path(self.get_script_dir()) / "config.yaml"
+        try:
+            with open(config_path, "r") as f:
+                data = yaml.safe_load(f)
+            
+            for item in data:
+                if "topology" in item:
+                    return item["topology"].get("type")
+
+        except Exception as e:
+            print(f"Erro: {e}")
+            
+seria algo nesse sentido para pegar o ip, me ajude com uma possivel sequencia da orquestração
+
+        return None
+        
+        
+        
+        
+
+
+
+
+Vou fazer da seguinte maneira, quero mudar a funcção:
+
+def get_topology_type(self):
+        config_path = Path(self.get_script_dir()) / "config.yaml"
+        try:
+            with open(config_path, "r") as f:
+                data = yaml.safe_load(f)
+            
+            for item in data:
+                if "topology" in item:
+                    return item["topology"].get("type")
+
+        except Exception as e:
+            print(f"Erro: {e}")
+
+        return None
+
+para além de pegar o tipo da topologia, pegar tambem o ip client e server.
+
+e no metodo up da classe provision:
+
+
+
+
+==========================================================
+
+
+def execute_command(self, command):
+    try:
+        result = subprocess.run(
+            f"cd {self.get_script_dir()}; {command}",
+            shell=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        print("Erro:", e.stderr)
+        return None
+
+
+
+
+
+
+========================================================
+
+def up(self, platform):
+        # Start the environment (Docker or Vagrant and Mininet)
+
+        topology_type = self.get_topology_type()
+        
+        if topology_type in ["tree", "linear"]:
+            self.start_mininet(topology_type)
+            self.wait_mininet_ready()
+        
+        command = "vagrant up" if platform == "vm" else "docker compose up -d"
+        return self.execute_command(command)
+
+
+nesse trecho:
+
+else "docker compose up -d"
+	pseudo codigo: vai rodar um script que fara algumas coisa, pegar o PID, criar veth pair..., esse script vai receber dois parametros ip do server e ip do client
+
+
+
+
+esse é o provision.py
+
 from pathlib import Path
 import subprocess
 import time
@@ -9,31 +117,20 @@ class Provision:
 
     # Auxiliary functions for provisioning the mininet environment
         
-    def read_configyaml(self):
+    def get_topology_type(self):
         config_path = Path(self.get_script_dir()) / "config.yaml"
-
-        tipo_topologia = None
-        client_ip= None
-        server_ip=None
-
         try:
             with open(config_path, "r") as f:
                 data = yaml.safe_load(f)
             
             for item in data:
                 if "topology" in item:
-                    tipo_topologia = item["topology"].get("type")
-                if item.get("traffic") == "client":
-                    client_ip= item.get("ip")
-                if item.get("traffic") == "server":
-                    server_ip = item.get("ip")
+                    return item["topology"].get("type")
 
         except Exception as e:
             print(f"Erro: {e}")
-        
-        return {"topology_type": tipo_topologia, "client_ip": client_ip , "server_ip": server_ip}
 
-        
+        return None
 
     def start_mininet(self, topology_type):
         switch_file = Path("/tmp/ultimo_switch.txt")
@@ -43,7 +140,7 @@ class Provision:
         subprocess.Popen(["bash", str(script), topology_type])
         print("Função start_mininet acionada")
 
-    def wait_mininet(self, timeout=60):
+    def wait_mininet_ready(self, timeout=60):
         switch_file = Path("/tmp/ultimo_switch.txt")
         start = time.time()
 
@@ -51,7 +148,7 @@ class Provision:
             if time.time() - start > timeout:
                 raise RuntimeError("Mininet startup timeout")
             time.sleep(1)
-        print("Função wait_mininet acionada")
+        print("Função wait_mininet_ready acionada")
     
     def stop_mininet(self):
         script = Path(self.get_script_dir()) / "mininet_down.sh"
@@ -82,38 +179,21 @@ class Provision:
     def up(self, platform):
         # Start the environment (Docker or Vagrant and Mininet)
 
-        config = self.read_configyaml()
+        topology_type = self.get_topology_type()
         
-        topology_type = config["topology_type"]
-        client_ip = config["client_ip"]
-        server_ip = config["server_ip"]    
-
         if topology_type in ["tree", "linear"]:
             self.start_mininet(topology_type)
-            self.wait_mininet()
+            self.wait_mininet_ready()
         
-        if platform == "docker":
-            self.execute_command("docker compose up -d")
-            time.sleep(10)
-            script = Path(self.get_script_dir()) / "up-enviroment.sh"
-            command = f"bash {script} {client_ip} {server_ip}"
-            self.execute_command(command)
-        else:
-            self.execute_command("vagrant up")
+        command = "vagrant up" if platform == "vm" else "docker compose up -d"
+        return self.execute_command(command)
 
     def down(self, platform):
         # Destroy the environment (Docker or Vagrant and Mininet)
-        
-        if platform == "docker":
-            script = Path(self.get_script_dir()) / "down-enviroment.sh"
-            self.execute_command(f"bash {script}")
-            time.sleep(5)
-            self.execute_command("docker compose down")
+        command = "vagrant destroy -f" if platform == "vm" else "docker compose down"
+        self.execute_command(command)
 
-        else:
-            self.execute_command("vagrant destroy -f")
-
-        time.sleep(10)
+        time.sleep(30)    
         self.stop_mininet()
 
     def execute_scenario(self, *args):
@@ -146,3 +226,8 @@ class Provision:
             command = f"""vagrant ssh client -c './wave/run_microburst.sh -l {args[1]} {args[2]}'"""
 
         return self.execute_command(command)
+
+
+
+
+perceba, que nele em um determinado momemento tem um trecho que chama scripts bash, faça algo parecido com o que já existe
