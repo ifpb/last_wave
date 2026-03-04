@@ -36,12 +36,9 @@ class Provision:
         
 
     def start_mininet(self, topology_type):
-        switch_file = Path("/tmp/ultimo_switch.txt")
-        switch_file.unlink(missing_ok=True)
-
         script = Path(self.get_script_dir()) / "mininet_up.sh"
         subprocess.Popen(["bash", str(script), topology_type])
-        print("Função start_mininet acionada")
+        # print("Função start_mininet acionada")
 
     def wait_mininet(self, timeout=60):
         switch_file = Path("/tmp/ultimo_switch.txt")
@@ -51,13 +48,13 @@ class Provision:
             if time.time() - start > timeout:
                 raise RuntimeError("Mininet startup timeout")
             time.sleep(1)
-        print("Função wait_mininet acionada")
+        # print("Função wait_mininet acionada")
     
     def stop_mininet(self):
         script = Path(self.get_script_dir()) / "mininet_down.sh"
         
         subprocess.Popen(["bash", str(script)])
-        print("Função stop_mininet acionada")
+        # print("Função stop_mininet acionada")
     ## ///
 
     def get_script_dir(self):
@@ -132,7 +129,6 @@ class Provision:
                 command = f"""vagrant ssh client -c './wave/run_wave.sh -l sinusoid {args[2]} {args[3]} {args[4]} {args[5]}'"""
             elif args[0] == "step":
                 command = f"""vagrant ssh client -c './wave/run_wave.sh -l stair_step {args[2]} {args[3]} {args[4]}'"""
-                print("Carga stair step executada")
             elif args[0] == "flashc":
                 command = f"""vagrant ssh client -c './wave/run_wave.sh -l flashcrowd {args[2]} {args[3]} {args[4]}'"""
             else:
