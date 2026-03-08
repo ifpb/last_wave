@@ -50,6 +50,7 @@ case $OPTION in
                 cd app/provision
                 rm ./logs/* > /dev/null 2>&1
                 vagrant destroy -f > /dev/null 2>&1
+                pkill -f api.py
                 echo "" > .env
                 #xhost -local:* > /dev/null
                 echo -e '🤝  Finished environment ...'
