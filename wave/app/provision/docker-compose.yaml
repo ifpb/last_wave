@@ -1,19 +1,19 @@
 services:
   apache:
-    # image: ghcr.io/ifpb/new_wave/wave-apache
-    build:
-      context: .
-      dockerfile: Dockerfile.server
+    image: ghcr.io/ifpb/new_wave/wave-apache
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.server
     container_name: server
     #ports:
     #- "80:80"
     # network_mode: none
 
   client_container:
-    # image: ghcr.io/ifpb/new_wave/wave-vlc
-    build:
-      context: ../../../wave-client
-      dockerfile: Dockerfile
+    image: ghcr.io/ifpb/new_wave/wave-vlc
+    # build:
+    #   context: ../../../wave-client
+    #   dockerfile: Dockerfile
     container_name: client
     privileged: true
     #environment:
