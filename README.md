@@ -60,7 +60,7 @@ $ ./app-compose.sh --start
 
 As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave-app and grafana-oss. On the left side of the figure, we have the output of the WAVE startup command.
 
-### The WAVE Web module can be accessed via a browser
+### The WAVE Web module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
 
 ![wave-web-home](./screenshots/wave-configurator2026.png)
 
