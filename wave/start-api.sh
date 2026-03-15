@@ -42,4 +42,3 @@ fi
 echo -e "🔛  Start API in port 8181\n"
 
 python3 api/api.py
-#sudo ./venv/bin/python3 api/api.py

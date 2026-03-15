@@ -41,6 +41,7 @@ case $OPTION in
                 docker pull ghcr.io/ifpb/new_wave/wave-vlc
                 docker pull ghcr.io/ifpb/new_wave/wave-apache
                 echo "🕒 Initilize API Provision ... "
+                chmod 777 app/provision/logs
                 bash start-api.sh
                 ;;
         "--destroy")
