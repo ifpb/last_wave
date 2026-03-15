@@ -75,7 +75,7 @@ class ProvisionGrafana(Resource):
         wave_model = parser_config_grafana.parse_args()['wave_model']
         platform = parser_config_grafana.parse_args()['platform']
         
-        PROMETHEUS_IP= "192.168.56.11"
+        PROMETHEUS_IP= "192.168.56.50"
         prometheus_url = PROMETHEUS_IP if platform == "vm" else "prometheus"
 
         api_key = generateAPIKey.create_api_key_grf()

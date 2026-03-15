@@ -10,12 +10,15 @@ SERVER_IP="$2/24"
 
 SWITCH_CLIENT="s1"
 
-SWITCH_FILE="/tmp/ultimo_switch.txt"
+SWITCH_FILE="/tmp/last_switch.txt"
 SWITCH_SERVER=$(tr -d '\n' < "$SWITCH_FILE")
 
 DNS_IP=$2
 
-# Pegando PID de cada container
+# A orquestração se baseia em pegar o PID de cada container, Criar os veth pairs,
+# Mover uma ponta para cada lado, Subir as interfaces Client e Server, E por ultimo, 
+# Configurar os IPs.
+
 CLIENT_PID=$(docker inspect -f '{{.State.Pid}}' $CLIENT)
 SERVER_PID=$(docker inspect -f '{{.State.Pid}}' $SERVER)
 
@@ -23,26 +26,23 @@ sudo mkdir -p /var/run/netns
 sudo ln -sf /proc/$CLIENT_PID/ns/net /var/run/netns/$CLIENT
 sudo ln -sf /proc/$SERVER_PID/ns/net /var/run/netns/$SERVER
 
-# Criando os veth pairs
+
 sudo ip link delete client 2>/dev/null || true
 sudo ip link delete server 2>/dev/null || true
 
 sudo ip link add veth-client type veth peer name client
 sudo ip link add veth-server type veth peer name server
 
-# Movendo uma ponta para os containers
+
 sudo ip link set veth-client netns $CLIENT
 sudo ip link set veth-server netns $SERVER
 
-# Conectando aos SWitchs do Mininet
+
 sudo ovs-vsctl add-port $SWITCH_CLIENT client
 sudo ovs-vsctl add-port $SWITCH_SERVER server
 
-# Subindo as interfaces client e server
 sudo ip link set client up
 sudo ip link set server up
-
-# Configurando IPs dentro dos containers
 
 sudo ip netns exec $CLIENT ip link set lo up
 sudo ip netns exec $CLIENT ip addr add $CLIENT_IP dev veth-client

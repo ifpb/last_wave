@@ -10,7 +10,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = BASE_DIR / "config.yaml"
-SWITCH_FILE = Path("/tmp/ultimo_switch.txt")
+SWITCH_FILE = Path("/tmp/last_switch.txt")
 
 def montar_arvore(net, depth, branching, max_switches, delay, loss):
     contador = 0

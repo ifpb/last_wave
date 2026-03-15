@@ -34,30 +34,25 @@ class Provision:
         return {"topology_type": tipo_topologia, "client_ip": client_ip , "server_ip": server_ip}
 
         
-
     def start_mininet(self, topology_type):
         script = Path(self.get_script_dir()) / "mininet_up.sh"
         subprocess.Popen(["bash", str(script), topology_type])
-        # print("Função start_mininet acionada")
 
-    def wait_mininet(self, timeout=180):
-        switch_file = Path("/tmp/ultimo_switch.txt")
+    def wait_mininet(self, timeout=300):
+        switch_file = Path("/tmp/last_switch.txt")
         start = time.time() 
 
         while not switch_file.exists():
             if time.time() - start > timeout:
                 raise RuntimeError("Mininet startup timeout")
             time.sleep(1)
-        # print("Função wait_mininet acionada")
     
     def stop_mininet(self):
         script = Path(self.get_script_dir()) / "mininet_down.sh"
         
         subprocess.Popen(["bash", str(script)])
-        # print("Função stop_mininet acionada")
 
-
-    def wait_container(self, timeout=180):
+    def wait_container(self, timeout=300):
         logs_dir = Path(self.get_script_dir()) / "logs"
         container_file = logs_dir / "container_up.txt"
 

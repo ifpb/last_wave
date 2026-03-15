@@ -13,7 +13,7 @@ server_cfg = machines.find { |m| m['traffic'] == 'server' }
 client_cfg = machines.find { |m| m['traffic'] == 'client' }
 
 
-ls= File.read("/tmp/ultimo_switch.txt").strip
+ls= File.read("/tmp/last_switch.txt").strip
 
 
 $SCRIPT = <<-EOF
@@ -63,22 +63,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       set.vm.provision "shell", inline: $SCRIPT
     end
   end
-
-  # config.vm.define "mininet" do |mn|
-  #   mn.vm.box = "wave-mininet/wave-mininet"
-  #   mn.vm.hostname = "wave-mininet"
-
-  #   mn.vm.network "public_network",
-  #                 auto_config: false,
-  #                 bridge: "br0"
-        
-  #   mn.vm.network "public_network",
-  #                 auto_config: false,
-  #                 bridge: "br1"
-
-  #   mn.vm.provider "virtualbox" do |vb|
-  #     vb.memory = 1048
-  #     vb.cpus = 2
-  #   end
-  # end
 end

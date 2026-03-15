@@ -11,7 +11,7 @@ from mininet.clean import cleanup
 
 BASE_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = BASE_DIR / "config.yaml"
-SWITCH_FILE = Path("/tmp/ultimo_switch.txt")
+SWITCH_FILE = Path("/tmp/last_switch.txt")
 
 
 def montar_linear(net, num_switches, delay,loss):
