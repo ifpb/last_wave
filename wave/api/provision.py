@@ -83,6 +83,22 @@ class Provision:
             return
             # return e.stderr.decode()
 
+
+    # def execute_command(self, command):
+    #     try:
+    #         result = subprocess.Popen(f"cd {self.get_script_dir()}; {command}",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+
+    #         stdout, stderr = result.communicate()
+
+    #         if stdout:
+    #             print(stdout)
+    #         if stderr:
+    #             print(stderr)
+
+    #     except subprocess.CalledProcessError as e:
+    #         print(e.stderr)
+
+
     def up(self, platform):
         # Start the environment (Docker or Vagrant and Mininet)
 

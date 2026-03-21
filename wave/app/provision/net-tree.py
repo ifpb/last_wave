@@ -12,7 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = BASE_DIR / "config.yaml"
 SWITCH_FILE = Path("/tmp/last_switch.txt")
 
-def montar_arvore(net, depth, branching, max_switches, delay, loss):
+def montar_arvore(net, depth, branching, max_switches, delay=None, loss=None, links_cfg=None):
+    link_map = {}
+    if links_cfg:
+        for l in links_cfg:
+            key = (l['src'], l['dst'])
+            link_map[key] = l
     contador = 0
     switches = []
 
@@ -29,16 +34,30 @@ def montar_arvore(net, depth, branching, max_switches, delay, loss):
         contador += 1
 
         if pai:
-
             link_parametros = {}
 
-            if delay: 
-                link_parametros['delay'] = delay
-            
-            if loss:
-                link_parametros['loss'] = float(loss)
-            
-            net.addLink(pai,sw, **link_parametros)
+            src = pai.name
+            dst = nome
+
+            # Modo specific
+            if links_cfg and (src, dst) in link_map:
+                l = link_map[(src, dst)]
+
+                if 'delay' in l:
+                    link_parametros['delay'] = l['delay']
+
+                if 'loss' in l:
+                    link_parametros['loss'] = float(l['loss'])
+
+            else:
+                # Modo global
+                if delay:
+                    link_parametros['delay'] = delay
+
+                if loss:
+                    link_parametros['loss'] = float(loss)
+
+            net.addLink(pai, sw, **link_parametros)
 
         if nivel < depth - 1:
             for _ in range(branching):
@@ -78,19 +97,18 @@ def main():
     max_switches = int(topologia['max_switches'])
     delay = topologia.get('delay')
     loss= topologia.get('loss')
+    links_cfg = topologia.get('links')
 
     net = Mininet(controller=None,switch=OVSSwitch,link=TCLink,build=False)
 
-    switches = montar_arvore(net,depth=depth,branching=branching,max_switches=max_switches,delay=delay, loss=loss)
+    switches = montar_arvore(net,depth=depth,branching=branching,max_switches=max_switches,delay=delay,loss=loss,links_cfg=links_cfg)
+
+
+
+    # switches = montar_arvore(net,depth=depth,branching=branching,max_switches=max_switches,delay=delay, loss=loss)
     
 
-    # montar_arvore(
-    #     net,
-    #     depth=depth,
-    #     branching=branching,
-    #     max_switches=max_switches,
-    #     delay=delay
-    # )
+
 
     net.build()
     net.start()    

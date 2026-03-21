@@ -39,36 +39,69 @@ def configure(app):
   vcpu: "{request.form.get('cpuclient')}"
   platform: {request.form.get('plafmclient')}
 
-""" 
+"""
             topology_type = request.form.get("topology-type")
-            delay = request.form.get("delay")
-            loss = request.form.get("loss")
+            delay_mode = request.form.get("delay-mode")
 
-            conf_topology = f"""           
+            conf_topology = f"""          
 - topology:
     type: "{topology_type}"
 """
-            
+
             if topology_type == "tree":
                 conf_topology += f"""\
     depth: "{request.form.get('depth')}"
     branching: "{request.form.get('branching')}"
     max_switches: "{request.form.get('switchs')}"
 """
-        
+
             elif topology_type == "linear":
                 conf_topology += f"""\
     num_switches: "{request.form.get('linear_switchs')}"
 """
-            
-            if delay and delay.isdigit() and int(delay) > 0:
-                conf_topology += f"""\
-    delay: "{delay}"
+        # NETWORK CONDITIONS
+            if delay_mode == "global":
+                delay = request.form.get("delay")
+                loss = request.form.get("loss")
+
+                try:
+                    if delay and float(delay) > 0:
+                        conf_topology += f'    delay: "{delay}ms"\n'
+                except ValueError:
+                    pass
+
+                try:
+                    if loss and float(loss) > 0:
+                        conf_topology += f'    loss: "{loss}"\n'
+                except ValueError:
+                    pass
+
+            elif delay_mode == "specific":
+                conf_topology += "    links:\n"
+
+                for key in request.form:
+                    if key.startswith("delay_s"):
+                        _, src, dst = key.split("_")
+                        delay_val = request.form.get(key)
+                        loss_val = request.form.get(f"loss_{src}_{dst}")
+
+                        link_block = f"""\
+      - src: "{src}"
+        dst: "{dst}"
 """
-            if loss and loss.isdigit() and int(loss) <= 100:
-                conf_topology += f"""\
-    loss: "{loss}"
-""" 
+                        try:
+                            if delay_val and float(delay_val) > 0:
+                                link_block += f'        delay: "{delay_val}ms"\n'
+                        except ValueError:
+                            pass
+
+                        try:
+                            if loss_val and float(loss_val) > 0:
+                                link_block += f'        loss: "{loss_val}"\n'
+                        except ValueError:
+                            pass
+
+                        conf_topology += link_block
 
         if (request.form.get('select-model') == 'sin'):
 

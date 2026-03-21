@@ -14,7 +14,13 @@ CONFIG_FILE = BASE_DIR / "config.yaml"
 SWITCH_FILE = Path("/tmp/last_switch.txt")
 
 
-def montar_linear(net, num_switches, delay,loss):
+def montar_linear(net, num_switches, delay=None,loss=None, links_cfg=None):
+    link_map = {}
+    if links_cfg:
+        for l in links_cfg:
+            if 'src' in l and 'dst' in l:
+                link_map[(l['src'], l['dst'])] = l
+
     switches = []
 
     for i in range(num_switches):
@@ -24,16 +30,31 @@ def montar_linear(net, num_switches, delay,loss):
         switches.append(sw)
 
         if i > 0:
+            pai = switches[i - 1]
+            link_parametros = {}
 
-            link_parametros={}
+            src = pai.name
+            dst = nome
 
-            if delay:
-                link_parametros['delay']=delay
+        # modo specific
+            if links_cfg and (src, dst) in link_map:
+                l = link_map[(src, dst)]
 
-            if loss:
-                link_parametros['loss'] = float(loss)
-            
-            net.addLink(switches[i -1], sw, **link_parametros)
+                if 'delay' in l:
+                    link_parametros['delay'] = l['delay']
+
+                if 'loss' in l:
+                    link_parametros['loss'] = float(l['loss'])
+
+            else:
+                # modo global
+                if delay:
+                    link_parametros['delay'] = delay
+
+                if loss:
+                    link_parametros['loss'] = float(loss)
+
+            net.addLink(pai, sw, **link_parametros)
 
 
     return switches
@@ -60,10 +81,11 @@ def main():
     num_switches = int(topologia['num_switches'])
     delay = topologia.get('delay')
     loss= topologia.get('loss')
+    links_cfg = topologia.get('links')
 
     net = Mininet(controller=None,switch=OVSSwitch,link=TCLink,build=False)
 
-    switches = montar_linear(net, num_switches, delay, loss)
+    switches = montar_linear(net,num_switches,delay=delay,loss=loss,links_cfg=links_cfg)
 
     net.build()
     net.start()

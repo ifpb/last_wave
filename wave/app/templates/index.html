@@ -357,32 +357,54 @@
 
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                       <label class="form-label">Configure network conditions</label>
 
                       <div class="form-check form-check-inline">
-                       <input class="form-check-input" type="radio" name="use-delay" id="delay-no" value="no" checked/>
-                       <label class="form-check-label" for="delay-no">No</label>
+                        <input class="form-check-input" type="radio" name="delay-mode" id="delay-none" value="none" checked>
+                        <label class="form-check-label" for="delay-none">No</label>
                       </div>
 
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="use-delay" id="delay-yes" value="yes" />
-                        <label class="form-check-label" for="delay-yes">Yes</label>
+                        <input class="form-check-input" type="radio" name="delay-mode" id="delay-global" value="global">
+                        <label class="form-check-label" for="delay-global">Global</label>
+                      </div>
+
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="delay-mode" id="delay-specific" value="specific">
+                        <label class="form-check-label" for="delay-specific">Per-link</label>
                       </div>
                     </div>
 
-                    <!-- DELAY FIELD -->
-                    <div class="col-md-3 d-none" id="delay-field">
-                      <label for="delay" class="form-label">Link Delay (ms)</label>
-                      <input class="form-control" type="number" name="delay" id="delay" placeholder="10" min="0" />
-                    </div>
+                    <div class="row g-3">
+                      <!-- DELAY FIELD -->
+                      <div class="col-md-3 d-none" id="delay-field">
+                        <label for="delay" class="form-label">Link Delay (ms)</label>
+                        <input class="form-control" type="number" name="delay" id="delay" placeholder="10" min="0" />
+                      </div>
 
-                    <!-- PACKET LOSS FIELD -->
-                    <div class="col-md-3 d-none" id="loss-field">
-                      <label for="loss" class="form-label">Packet Loss (%)</label>
-                      <input class="form-control" type="number" name="loss" id="loss" placeholder="5" min="0" max="100" />
+                      <!-- PACKET LOSS FIELD -->
+                      <div class="col-md-3 d-none" id="loss-field">
+                        <label for="loss" class="form-label">Packet Loss (%)</label>
+                        <input class="form-control" type="number" name="loss" id="loss" placeholder="5" min="0" max="100" />
+                      </div>
                     </div>
+                    <!-- SPECIFIC -->
+                    <div class="col-md-12 d-none mt-3" id="specific-delay-table">
+                    <table class="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Link</th>
+                          <th>Delay (ms)</th>
+                          <th>Loss (%)</th>
+                        </tr>
+                      </thead>
+                      <tbody id="delay-table-body">
+                      </tbody>
+                    </table>
+                  </div>
                 </div> 
+
 
       <hr class="my-3" />
       <div class="d-grid gap-2 d-md-block">
