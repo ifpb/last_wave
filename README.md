@@ -64,7 +64,7 @@ As can be seen in the figure above, the WAVE Initialization module uses two cont
 
 ### The WAVE Web module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
 
-![wave-web-home](./screenshots/wave-configurator2026.png)
+![wave-web-home](./screenshots/wave-configurator-2026.png)
 
 The form contains fields for entering network data for both the traffic load source and destination. In addition to specifying the IP address, the user can choose how the environment will be provisioned, either through a container or a virtual machine, with configurable memory size and number of virtual CPUs. It is also possible to configure the network topology through user-defined parameters. Currently, the WAVE supports linear and tree topologies. Finally, the user can select which workload model to apply, such as sinusoid, flashcrowd, or step, and optionally enable the use of micro-burst traffic.
 
