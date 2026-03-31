@@ -13,7 +13,7 @@ Experimentation is fundamental in computer networks research, especially for val
 - **Minimum Test**: presents a simple scenario to validate the installation.
 - **Ending the WAVE Execution**: describes how to properly terminate the environment.
 
-# Seals Considered
+## Seals Considered
 
 The seals considered for this artifact are:
 
@@ -31,19 +31,19 @@ This section provides useful resources related to the WAVE tool, including docum
 
 [Demonstrative videos of the WAVE tool](https://drive.google.com/drive/folders/1E3_Gj1HX8jhLEx9tRARIDYxlm8bzkNN3?usp=drive_link)
 
-# Basic information
+## Basic information
 
 - CPU: 4 cores or higher
 - Memory: at least 8 GB RAM
 - Storage: at least 10 GB of free space
 
-## Operating System
+### Operating System
 
 WAVE has been tested on Linux-based systems, especially:
 
 - Ubuntu 22.04 or higher
 
-## Environment Overview
+### Environment Overview
 
 WAVE integrates multiple technologies for network experimentation:
 
@@ -52,7 +52,7 @@ WAVE integrates multiple technologies for network experimentation:
 - Grafana for metrics visualization
 - Vagrant and VirtualBox for optional virtual machine provisioning
 
-# Dependencies
+## Dependencies
 
 To run WAVE, the following dependencies are required:
 
@@ -64,14 +64,14 @@ To run WAVE, the following dependencies are required:
 - **VirtualBox** (version 7.1.6 or higher)
 - **Vagrant** (version 2.3.4 or higher)
 
-# Security concerns
+## Security concerns
 
 WAVE uses technologies that may impact the host system, such as Docker and Mininet.
 
 - Mininet may modify system network configurations.
 - Docker may run with elevated privileges depending on the configuration.
 
-## Recommendations
+### Recommendations
 
 - Run WAVE in an isolated environment (virtual machine)
 - Avoid running in production environments
@@ -138,11 +138,11 @@ As can be seen in the figure above, the WAVE Initialization module uses two cont
 
 The form contains fields for entering network data for both the traffic load source and destination. In addition to specifying the IP address, the user can choose how the environment will be provisioned, either through a container or a virtual machine, with configurable memory size and number of virtual CPUs. It is also possible to configure the network topology through user-defined parameters. Currently, the WAVE supports linear and tree topologies. Finally, the user can select which workload model to apply, such as sinusoid, flashcrowd, or step, and optionally enable the use of micro-burst traffic.
 
-# Minimum Test
+## Minimum Test
 
 This test aims to validate whether the environment has been correctly configured.
 
-## Procedure
+### Procedure
 
 1. Clone the repository:
 
@@ -184,7 +184,7 @@ http://localhost
 
 8. After entering the password, you can return to the WEB interface
 
-## Expected result
+### Expected result
 
 - The environment will be provisioned (this may take some time)
 - The results web interface should appear
@@ -192,9 +192,9 @@ http://localhost
 
 If all steps are completed successfully, the environment is ready for use. If any issues are encountered while starting or terminating the environment, we recommend consulting the demonstration videos available in the Project Information section. In particular, the first video provides a complete walkthrough of the tool execution.
 
-# Ending the WAVE Execution
+## Ending the WAVE Execution
 
-## Finalizing and removing the container environment:
+### Finalizing and removing the container environment:
 
 ```
 $ ./app-compose.sh --destroy
