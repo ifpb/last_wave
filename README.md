@@ -23,7 +23,7 @@ The seals considered for this artifact are:
 
 ## Project information
 
-This section provides useful resources related to the WAVE tool, including documentation, previous publications, and demonstration videos 
+This section provides useful resources related to the WAVE tool, including documentation, previous publications, and demonstration videos.
 
 [WAVE User Manual](WAVE_User_Manual.pdf)
 
@@ -125,11 +125,11 @@ $ cd last_wave/wave
 $ ./app-compose.sh --start
 ```
 
-### Checking the execution in a Docker enviroment:
+### Checking the execution in a Docker environment:
 
 ![wave-cli-docker](./screenshots/wave-cli-docker2.png)
 
-As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave-app and grafana-oss. On the left side of the figure, we have the output of the WAVE startup command.
+As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave_app and grafana-oss. On the left side of the figure, we have the output of the WAVE startup command.
 
 ### The WAVE Web module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
 
@@ -181,7 +181,7 @@ http://localhost
 
 7. Return to the terminal to enter the root password (Mininet requires root privileges; you can configure the visudo file to avoid password prompts)
 
-8. After entering the password, you can return to the WEB interface
+8. After entering the password, you may return to the web interface
 
 ### Expected result
 
@@ -200,3 +200,7 @@ $ ./app-compose.sh --destroy
 ```
 
 By running the command above, the user terminates the WAVE WEB module and removes the containers responsible for the other initiated modules. To restart the entire system, simply execute the same command, replacing the --destroy argument with --start.
+
+## LICENSE
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the LICENSE file for more details.
