@@ -252,11 +252,13 @@ http://localhost
 - Number of switches: 5
 - Workload model: stair step
 
-6. Execute the experiment.
+6. Execute the experiment. 
 
 7. Return to the terminal to enter the root password (Mininet requires root privileges; you can configure the visudo file to avoid password prompts)
 
 8. After entering the password, you may return to the web interface
+
+If this is your first execution, the process may take longer because the Vagrant boxes (client and server) need to be downloaded. The total time will depend on your internet connection.
 
 ### Expected result
 
