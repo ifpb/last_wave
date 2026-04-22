@@ -120,6 +120,12 @@ $ docker compose version
 ```
 If it is not installed:
 
+Install curl if you don't already have it.
+
+```
+$ sudo apt install -y curl
+```
+
 ```
 $ curl -fsSL https://get.docker.com -o get-docker.sh
 $ chmod +x get-docker.sh 
@@ -139,6 +145,8 @@ If it is not installed:
 ```
 $ sudo apt install virtualbox
 ```
+If VirtualBox is not available in the repository, install it from the [official website](https://www.virtualbox.org/wiki/Linux_Downloads).
+
 ### Checking what version of Vagrant is installed:
 
 <!-- ![wave-version-vagrant](./screenshots/wave-version-vagrant2.png) -->
@@ -168,7 +176,7 @@ $ mn --version
 If it is not installed:
 
 ```
-$ sudo apt install mininet
+$ sudo apt update && sudo apt install mininet
 ```
 
 We recommend installing Mininet from the official website, as it provides the most up-to-date version:  
