@@ -286,22 +286,33 @@ The experiment reproduces the delay analysis scenario presented in the **“Impa
 
 ### Experiment Configuration
 
-Start the WAVE environment:
+Make sure all dependencies have been installed.
+
+1. Clone the repository:
+
+```
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
+```
+
+2. Start the WAVE environment:
 
 ```bash
 ./app-compose.sh --start
 ```
 
-Access the Web interface:
+3. Access the Web interface (use chrome or brave):
 
 ```
 http://localhost
 ```
-Use the following base configuration:
+4. Use the following base configuration:
 
 - Platform: VM
 - Topology: Linear, Number of switches: 5
 - Workload model: Stair Step, Interval: 5, Jump: 10, Duration: 10
+
+Now you will configure scenarios with different delay values. For each scenario, a new environment must be configured, changing only the delay parameter while keeping the remaining settings the same. There is no need to repeat the installation or startup steps, since the Analysis Result screen includes a `Destroy` button that terminates the current environment and returns you to the home page. Once you return to the initial screen, you can configure the next scenario.
 
 ### Scenario 1: Baseline
 
