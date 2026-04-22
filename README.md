@@ -86,12 +86,12 @@ No critical risks were identified, provided that the best practices above are fo
 <!-- ![wave-version-python3](./screenshots/wave-version-python32.png) -->
 
 ```
-$ python3 --version
+python3 --version
 ```
 If it is not installed:
 
 ```
-$ sudo apt update && sudo apt install python3
+sudo apt update && sudo apt install python3
 ```
 
 ### Additionally, the VirtualEnv virtual environment is required:
@@ -99,12 +99,12 @@ $ sudo apt update && sudo apt install python3
 <!-- ![wave-version-venv](./screenshots/wave-version-venv2.png) -->
 
 ```
-$ sudo apt list | grep python3-venv
+sudo apt list | grep python3-venv
 ```
 If it is not installed:
 
 ```
-$ sudo apt update && sudo apt install python3-venv
+sudo apt update && sudo apt install python3-venv
 ```
 
 ### Checking the Docker and docker compose components:
@@ -115,21 +115,21 @@ $ sudo apt update && sudo apt install python3-venv
 
 
 ```
-$ docker --version
-$ docker compose version
+docker --version
+docker compose version
 ```
 If it is not installed:
 
 Install curl if you don't already have it.
 
 ```
-$ sudo apt install -y curl
+sudo apt install -y curl
 ```
 
 ```
-$ curl -fsSL https://get.docker.com -o get-docker.sh
-$ chmod +x get-docker.sh 
-$ sudo sh ./get-docker.sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh 
+sudo sh ./get-docker.sh
 ```
 
 ### Checking what version of Virtualbox is installed:
@@ -137,13 +137,13 @@ $ sudo sh ./get-docker.sh
 <!-- ![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png) -->
 
 ```
-$ vboxmanage --version
+vboxmanage --version
 ```
 
 If it is not installed:
 
 ```
-$ sudo apt install virtualbox
+sudo apt install virtualbox
 ```
 If VirtualBox is not available in the repository, install it from the [official website](https://www.virtualbox.org/wiki/Linux_Downloads).
 
@@ -152,14 +152,14 @@ If VirtualBox is not available in the repository, install it from the [official 
 <!-- ![wave-version-vagrant](./screenshots/wave-version-vagrant2.png) -->
 
 ```
-$ vagrant --version
+vagrant --version
 ```
 
 If it is not installed:
 
 Manual installation of Vagrant from the [official website](https://developer.hashicorp.com/vagrant/install#linux).
 ```
-$ wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update && sudo apt install vagrant
 
@@ -170,13 +170,13 @@ sudo apt update && sudo apt install vagrant
 <!-- ![wave-version-mininet](./screenshots/wave-version-mininet.png) -->
 
 ```
-$ mn --version
+mn --version
 ```
 
 If it is not installed:
 
 ```
-$ sudo apt update && sudo apt install mininet
+sudo apt update && sudo apt install mininet
 ```
 
 We recommend installing Mininet from the official website, as it provides the most up-to-date version:  
@@ -192,9 +192,9 @@ The versions shown in the figures were those tested at the time of this manual's
 ### Cloning the official repository and starting the system:
 
 ```
-$ git clone https://github.com/1valcl3b/last_wave.git
-$ cd last_wave/wave
-$ ./app-compose.sh --start
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
+./app-compose.sh --start
 ```
 
 ### Checking the execution in a Docker environment:
@@ -218,20 +218,20 @@ This test aims to validate whether the environment has been correctly configured
 1. Clone the repository:
 
 ```
-$ git clone https://github.com/1valcl3b/last_wave.git
-$ cd last_wave/wave
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
 ```
 
 2. Start the environment:
 
 ```
-$ ./app-compose.sh --start
+./app-compose.sh --start
 ```
 
 3. Verify that the containers are running:
 
 ```
-$ docker ps
+docker ps
 ```
 
 It is expected that the containers `wave_app`, `node-exporter`, and `grafana-oss` are active.
@@ -268,7 +268,7 @@ If all steps are completed successfully, the environment is ready for use. If an
 ### Finalizing and removing the container environment:
 
 ```
-$ ./app-compose.sh --destroy
+./app-compose.sh --destroy
 ```
 
 By running the command above, the user terminates the WAVE WEB module and removes the containers responsible for the other initiated modules. To restart the entire system, simply execute the same command, replacing the --destroy argument with --start.
