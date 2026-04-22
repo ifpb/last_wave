@@ -96,21 +96,66 @@ $ sudo apt update && sudo apt install python3
 
 ### Additionally, the VirtualEnv virtual environment is required:
 
-![wave-version-venv](./screenshots/wave-version-venv2.png)
+<!-- ![wave-version-venv](./screenshots/wave-version-venv2.png) -->
+
+```
+$ sudo apt list | grep python3-venv
+```
+If it is not installed:
+
+```
+$ sudo apt update && sudo apt install python3-venv
+```
 
 ### Checking the Docker and docker compose components:
 
-![wave-version-docker](./screenshots/wave-version-docker2.png)
+<!-- ![wave-version-docker](./screenshots/wave-version-docker2.png)
 
-![wave-version-docker-compose](./screenshots/wave-version-docker-compose2.png)
+![wave-version-docker-compose](./screenshots/wave-version-docker-compose2.png)] -->
+
+
+```
+$ docker --version
+$ docker compose version
+```
+If it is not installed:
+
+```
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ chmod +x get-docker.sh 
+$ sudo sh ./get-docker.sh
+```
 
 ### Checking what version of Virtualbox is installed:
 
-![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png)
+<!-- ![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png) -->
 
+```
+$ vboxmanage --version
+```
+
+If it is not installed:
+
+```
+$ sudo apt install virtualbox
+```
 ### Checking what version of Vagrant is installed:
 
-![wave-version-vagrant](./screenshots/wave-version-vagrant2.png)
+<!-- ![wave-version-vagrant](./screenshots/wave-version-vagrant2.png) -->
+
+```
+$ vagrant --version
+```
+
+If it is not installed:
+
+Manual installation of Vagrant from the [official website](https://developer.hashicorp.com/vagrant/install#linux).
+```
+$ wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vagrant
+
+```
 
 ### Checking what version of Mininet is installed
 
