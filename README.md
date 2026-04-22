@@ -131,6 +131,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 chmod +x get-docker.sh 
 sudo sh ./get-docker.sh
 ```
+After installation, you may need to configure permissions and add your user to the docker group.
 
 ### Checking what version of Virtualbox is installed:
 
@@ -187,7 +188,7 @@ Although Mininet can also be installed using `apt install mininet`, the version 
 
 The versions shown in the figures were those tested at the time of this manual's creation.
 
-## Installation and running
+## Running
 
 ### Cloning the official repository and starting the system:
 
@@ -263,15 +264,106 @@ http://localhost
 
 If all steps are completed successfully, the environment is ready for use. If any issues are encountered while starting or terminating the environment, we recommend consulting the demonstration videos available in the Project Information section. In particular, the first video provides a complete walkthrough of the tool execution.
 
-## Ending the WAVE Execution
+### Ending the WAVE Execution
 
-### Finalizing and removing the container environment:
+Finalizing and removing the container environment:
 
 ```
 ./app-compose.sh --destroy
 ```
 
 By running the command above, the user terminates the WAVE WEB module and removes the containers responsible for the other initiated modules. To restart the entire system, simply execute the same command, replacing the --destroy argument with --start.
+
+## Experiments
+
+This section describes how to reproduce one of the main claims presented in the paper: **WAVE can dynamically configure Mininet network parameters and reproduce their impact on network metrics such as RTT.**
+
+The experiment reproduces the delay analysis scenario presented in the **“Impact of Mininet Parameters”** section of the paper, where different delay values are injected into the network topology to evaluate their impact on Round-Trip Time (RTT).
+
+The goal of this experiment is to demonstrate that increasing the configured delay in Mininet produces a proportional increase in RTT while maintaining stable and reproducible network behavior across executions.
+
+### Experiment Configuration
+
+Start the WAVE environment:
+
+```bash
+./app-compose.sh --start
+```
+Access the Web interface:
+```
+http://localhost
+```
+Use the following base configuration:
+
+- Platform: VM
+- Topology: Linear, Number of switches: 5
+- Workload model: Stair Step, Interval: 5, Jump: 10, Duration: 10
+
+### Scenario 1: Baseline
+
+Configure:
+
+- Delay: 0 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The environment should be provisioned successfully
+- The Analysis Result screen should be displayed
+- A higher Mbps rate should be observed arriving at the server interface
+
+Expected execution time:
+
+- Approximately 3–5 minutes
+
+### Scenario 2: Delay Injection (10 ms)
+
+Configure:
+
+- Delay: 10 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The Analysis Result screen should be displayed
+- Traffic should continue reaching the server interface
+- The observed Mbps rate should be lower than the baseline scenario
+
+- Expected execution time:
+
+Approximately 3–5 minutes
+
+### Scenario 3: Delay Injection (50 ms)
+
+Configure:
+
+- Delay: 50 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The Analysis Result screen should be displayed
+- Traffic should continue reaching the server interface
+- The observed Mbps rate should be lower than the 10 ms scenario
+
+Expected execution time:
+
+- Approximately 3–5 minutes
+
+## Expected Result
+
+In all scenarios, the **Analysis Results** screen should display:
+
+- Traffic arriving at the server network interface
+- CPU usage
+- Memory usage
+
+The expected behavior is that, as the configured delay increases, the amount of Mbps reaching the server interface decreases proportionally.
+
+This demonstrates that WAVE correctly applies Mininet delay parameters in a reproducible experimental environment.
 
 ## LICENSE
 
