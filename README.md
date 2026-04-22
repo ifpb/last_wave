@@ -8,10 +8,12 @@ Experimentation is fundamental in computer networks research, especially for val
 - **Project information**: useful links, including user manual, previous work, and demonstration videos.
 - **Basic information**: presents the hardware and software requirements needed for execution.
 - **Dependencies**: lists the tools and libraries used.
-- **Installation and running**: describes how to configure and start the environment.
+- **Running**: describes how to configure and start the environment.
 - **Security concerns**: describes potential risks and safe execution practices.
 - **Minimum Test**: presents a simple scenario to validate the installation.
 - **Ending the WAVE Execution**: describes how to properly terminate the environment.
+- **Experiments**: describes how to reproduce one of the experiments presented in the paper.
+- **LICENSE**: presents the project license information.
 
 ## Seals Considered
 
@@ -200,9 +202,9 @@ cd last_wave/wave
 
 ### Checking the execution in a Docker environment:
 
-![wave-cli-docker](./screenshots/wave-cli-docker2.png)
+![wave-cli-docker](./screenshots/wave3-cli-docker.png)
 
-As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave_app and grafana-oss. On the left side of the figure, we have the output of the WAVE startup command.
+As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave_app, grafana and node-exporter. On the left side of the figure, we have the output of the WAVE startup command.
 
 ### The WAVE Web module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
 
@@ -235,7 +237,7 @@ cd last_wave/wave
 docker ps
 ```
 
-It is expected that the containers `wave_app`, `node-exporter`, and `grafana-oss` are active.
+It is expected that the containers `wave_app`, `node-exporter`, and `grafana` are active.
 
 4. Access the web interface in the browser (use Chrome or Brave):
 
@@ -264,7 +266,7 @@ http://localhost
 
 If all steps are completed successfully, the environment is ready for use. If any issues are encountered while starting or terminating the environment, we recommend consulting the demonstration videos available in the Project Information section. In particular, the first video provides a complete walkthrough of the tool execution.
 
-### Ending the WAVE Execution
+## Ending the WAVE Execution
 
 Finalizing and removing the container environment:
 
@@ -276,11 +278,9 @@ By running the command above, the user terminates the WAVE WEB module and remove
 
 ## Experiments
 
-This section describes how to reproduce one of the main claims presented in the paper: **WAVE can dynamically configure Mininet network parameters and reproduce their impact on network metrics such as RTT.**
+This section describes how to reproduce one of the main claims presented in the paper: **WAVE can dynamically configure Mininet network parameters and demonstrate their impact on network traffic behavior.**
 
-The experiment reproduces the delay analysis scenario presented in the **“Impact of Mininet Parameters”** section of the paper, where different delay values are injected into the network topology to evaluate their impact on Round-Trip Time (RTT).
-
-The goal of this experiment is to demonstrate that increasing the configured delay in Mininet produces a proportional increase in RTT while maintaining stable and reproducible network behavior across executions.
+The experiment reproduces the delay analysis scenario presented in the **“Impact of Mininet Parameters”** section of the paper, where different delay values are injected into the network topology to evaluate their impact on network throughput.
 
 ### Experiment Configuration
 
@@ -289,7 +289,9 @@ Start the WAVE environment:
 ```bash
 ./app-compose.sh --start
 ```
+
 Access the Web interface:
+
 ```
 http://localhost
 ```
@@ -331,9 +333,9 @@ Expected result:
 - Traffic should continue reaching the server interface
 - The observed Mbps rate should be lower than the baseline scenario
 
-- Expected execution time:
+Expected execution time:
 
-Approximately 3–5 minutes
+- Approximately 3–5 minutes
 
 ### Scenario 3: Delay Injection (50 ms)
 
