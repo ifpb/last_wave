@@ -8,10 +8,12 @@ Experimentation is fundamental in computer networks research, especially for val
 - **Project information**: useful links, including user manual, previous work, and demonstration videos.
 - **Basic information**: presents the hardware and software requirements needed for execution.
 - **Dependencies**: lists the tools and libraries used.
-- **Installation and running**: describes how to configure and start the environment.
+- **Running**: describes how to configure and start the environment.
 - **Security concerns**: describes potential risks and safe execution practices.
 - **Minimum Test**: presents a simple scenario to validate the installation.
 - **Ending the WAVE Execution**: describes how to properly terminate the environment.
+- **Experiments**: describes how to reproduce one of the experiments presented in the paper.
+- **LICENSE**: presents the project license information.
 
 ## Seals Considered
 
@@ -83,29 +85,102 @@ No critical risks were identified, provided that the best practices above are fo
 
 ### Checking if Python3 is installed and it's version:
 
-![wave-version-python3](./screenshots/wave-version-python32.png)
+<!-- ![wave-version-python3](./screenshots/wave-version-python32.png) -->
+
+```
+python3 --version
+```
+If it is not installed:
+
+```
+sudo apt update && sudo apt install python3
+```
 
 ### Additionally, the VirtualEnv virtual environment is required:
 
-![wave-version-venv](./screenshots/wave-version-venv2.png)
+<!-- ![wave-version-venv](./screenshots/wave-version-venv2.png) -->
+
+```
+sudo apt list | grep python3-venv
+```
+If it is not installed:
+
+```
+sudo apt update && sudo apt install python3-venv
+```
 
 ### Checking the Docker and docker compose components:
 
-![wave-version-docker](./screenshots/wave-version-docker2.png)
+<!-- ![wave-version-docker](./screenshots/wave-version-docker2.png)
 
-![wave-version-docker-compose](./screenshots/wave-version-docker-compose2.png)
+![wave-version-docker-compose](./screenshots/wave-version-docker-compose2.png)] -->
+
+
+```
+docker --version
+docker compose version
+```
+If it is not installed:
+
+Install curl if you don't already have it.
+
+```
+sudo apt install -y curl
+```
+
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh 
+sudo sh ./get-docker.sh
+```
+After installation, you may need to configure permissions and add your user to the docker group.
 
 ### Checking what version of Virtualbox is installed:
 
-![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png)
+<!-- ![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png) -->
+
+```
+vboxmanage --version
+```
+
+If it is not installed:
+
+```
+sudo apt install virtualbox
+```
+If VirtualBox is not available in the repository, install it from the [official website](https://www.virtualbox.org/wiki/Linux_Downloads).
 
 ### Checking what version of Vagrant is installed:
 
-![wave-version-vagrant](./screenshots/wave-version-vagrant2.png)
+<!-- ![wave-version-vagrant](./screenshots/wave-version-vagrant2.png) -->
+
+```
+vagrant --version
+```
+
+If it is not installed:
+
+Manual installation of Vagrant from the [official website](https://developer.hashicorp.com/vagrant/install#linux).
+```
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vagrant
+
+```
 
 ### Checking what version of Mininet is installed
 
-![wave-version-mininet](./screenshots/wave-version-mininet.png)
+<!-- ![wave-version-mininet](./screenshots/wave-version-mininet.png) -->
+
+```
+mn --version
+```
+
+If it is not installed:
+
+```
+sudo apt update && sudo apt install mininet
+```
 
 We recommend installing Mininet from the official website, as it provides the most up-to-date version:  
 https://mininet.org/download/
@@ -115,23 +190,23 @@ Although Mininet can also be installed using `apt install mininet`, the version 
 
 The versions shown in the figures were those tested at the time of this manual's creation.
 
-## Installation and running
+## Running
 
 ### Cloning the official repository and starting the system:
 
 ```
-$ git clone https://github.com/1valcl3b/last_wave.git
-$ cd last_wave/wave
-$ ./app-compose.sh --start
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
+./app-compose.sh --start
 ```
 
 ### Checking the execution in a Docker environment:
 
-![wave-cli-docker](./screenshots/wave-cli-docker2.png)
+![wave-cli-docker](./screenshots/wave3-cli-docker.png)
 
-As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave_app and grafana-oss. On the left side of the figure, we have the output of the WAVE startup command.
+As can be seen in the figure above, the WAVE Initialization module uses two containers for its execution: wave_app, grafana and node-exporter. On the left side of the figure, we have the output of the WAVE startup command.
 
-### The WAVE Web module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
+### The WAVE WEB module can be accessed via a browser. We recommend using Google Chrome or another Chromium-based browser for better compatibility.
 
 ![wave-web-home](./screenshots/wave-configurator-2026.png)
 
@@ -146,23 +221,23 @@ This test aims to validate whether the environment has been correctly configured
 1. Clone the repository:
 
 ```
-$ git clone https://github.com/1valcl3b/last_wave.git
-$ cd last_wave/wave
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
 ```
 
 2. Start the environment:
 
 ```
-$ ./app-compose.sh --start
+./app-compose.sh --start
 ```
 
 3. Verify that the containers are running:
 
 ```
-$ docker ps
+docker ps
 ```
 
-It is expected that the containers `wave_app`, `node-exporter`, and `grafana-oss` are active.
+It is expected that the containers `wave_app`, `node-exporter`, and `grafana` are active.
 
 4. Access the web interface in the browser (use Chrome or Brave):
 
@@ -177,11 +252,13 @@ http://localhost
 - Number of switches: 5
 - Workload model: stair step
 
-6. Execute the experiment.
+6. Execute the experiment. 
 
 7. Return to the terminal to enter the root password (Mininet requires root privileges; you can configure the visudo file to avoid password prompts)
 
 8. After entering the password, you may return to the web interface
+
+If this is your first execution, the process may take longer because the Vagrant boxes (client and server) need to be downloaded. The total time will depend on your internet connection.
 
 ### Expected result
 
@@ -193,13 +270,115 @@ If all steps are completed successfully, the environment is ready for use. If an
 
 ## Ending the WAVE Execution
 
-### Finalizing and removing the container environment:
+Finalizing and removing the container environment:
 
 ```
-$ ./app-compose.sh --destroy
+./app-compose.sh --destroy
 ```
 
 By running the command above, the user terminates the WAVE WEB module and removes the containers responsible for the other initiated modules. To restart the entire system, simply execute the same command, replacing the --destroy argument with --start.
+
+## Experiments
+
+This section describes how to reproduce one of the main claims presented in the paper: **WAVE can dynamically configure Mininet network parameters and demonstrate their impact on network traffic behavior.**
+
+The experiment reproduces the delay analysis scenario presented in the **“Impact of Mininet Parameters”** section of the paper, where different delay values are injected into the network topology to evaluate their impact on network throughput.
+
+### Experiment Configuration
+
+Make sure all dependencies have been installed.
+
+1. Clone the repository:
+
+```
+git clone https://github.com/1valcl3b/last_wave.git
+cd last_wave/wave
+```
+
+2. Start the WAVE environment:
+
+```bash
+./app-compose.sh --start
+```
+
+3. Access the Web interface (use chrome or brave):
+
+```
+http://localhost
+```
+4. Use the following base configuration:
+
+- Platform: VM
+- Topology: Linear, Number of switches: 5
+- Workload model: Stair Step, Interval: 5, Jump: 10, Duration: 10
+
+Now you will configure scenarios with different delay values. For each scenario, a new environment must be configured, changing only the delay parameter while keeping the remaining settings the same. There is no need to repeat the installation or startup steps, since the Analysis Result screen includes a `Destroy` button that terminates the current environment and returns you to the home page. Once you return to the initial screen, you can configure the next scenario.
+
+### Scenario 1: Baseline
+
+Configure:
+
+- Delay: 0 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The environment should be provisioned successfully
+- The Analysis Result screen should be displayed
+- A higher Mbps rate should be observed arriving at the server interface
+
+Expected execution time:
+
+- Approximately 3–5 minutes
+
+### Scenario 2: Delay Injection (10 ms)
+
+Configure:
+
+- Delay: 10 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The Analysis Result screen should be displayed
+- Traffic should continue reaching the server interface
+- The observed Mbps rate should be lower than the baseline scenario
+
+Expected execution time:
+
+- Approximately 3–5 minutes
+
+### Scenario 3: Delay Injection (50 ms)
+
+Configure:
+
+- Delay: 50 ms
+
+Execute the experiment.
+
+Expected result:
+
+- The Analysis Result screen should be displayed
+- Traffic should continue reaching the server interface
+- The observed Mbps rate should be lower than the 10 ms scenario
+
+Expected execution time:
+
+- Approximately 3–5 minutes
+
+## Expected Result
+
+In all scenarios, the **Analysis Results** screen should display:
+
+- Traffic arriving at the server network interface
+- CPU usage
+- Memory usage
+
+The expected behavior is that, as the configured delay increases, the amount of Mbps reaching the server interface decreases proportionally.
+
+This demonstrates that WAVE correctly applies Mininet delay parameters in a reproducible experimental environment.
 
 ## LICENSE
 
