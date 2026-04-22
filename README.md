@@ -83,7 +83,16 @@ No critical risks were identified, provided that the best practices above are fo
 
 ### Checking if Python3 is installed and it's version:
 
-![wave-version-python3](./screenshots/wave-version-python32.png)
+<!-- ![wave-version-python3](./screenshots/wave-version-python32.png) -->
+
+```
+$ python3 --version
+```
+If it is not installed:
+
+```
+$ sudo apt update && sudo apt install python3
+```
 
 ### Additionally, the VirtualEnv virtual environment is required:
 
