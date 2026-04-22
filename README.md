@@ -159,7 +159,17 @@ sudo apt update && sudo apt install vagrant
 
 ### Checking what version of Mininet is installed
 
-![wave-version-mininet](./screenshots/wave-version-mininet.png)
+<!-- ![wave-version-mininet](./screenshots/wave-version-mininet.png) -->
+
+```
+$ mn --version
+```
+
+If it is not installed:
+
+```
+$ sudo apt install mininet
+```
 
 We recommend installing Mininet from the official website, as it provides the most up-to-date version:  
 https://mininet.org/download/
