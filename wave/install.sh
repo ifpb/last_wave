@@ -110,7 +110,7 @@ if ! command_exists curl; then
 fi
 
 # -------------------------------
-# Docker (README METHOD)
+# Docker
 # -------------------------------
 
 echo "===> Checking Docker"
@@ -123,6 +123,7 @@ else
     curl -fsSL https://get.docker.com -o get-docker.sh
     chmod +x get-docker.sh
     sudo sh ./get-docker.sh
+    sudo chmod 777 /var/run/docker.sock
 fi
 
 # -------------------------------
