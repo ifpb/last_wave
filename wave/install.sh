@@ -177,7 +177,7 @@ if command_exists mn && ! $FORCE; then
 else
     echo "Installing Mininet..."
     sudo apt install -y mininet
-    echo "⚠️ Recommended: https://mininet.org/download/"
+    echo "Recommended: https://mininet.org/download/"
 fi
 
 # Final validation
