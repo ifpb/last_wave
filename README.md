@@ -83,6 +83,14 @@ No critical risks were identified, provided that the best practices above are fo
 
 ## Checking the Required Requirements
 
+To simplify the setup process and improve reproducibility, we provide an automated installation script that installs and configures all required dependencies. If the script fails for any reason, you can follow the manual step-by-step installation described in this README.
+
+```bash
+cd last_wave/wave
+chmod +x install.sh
+./install.sh
+```
+
 ### Checking if Python3 is installed and it's version:
 
 <!-- ![wave-version-python3](./screenshots/wave-version-python32.png) -->
