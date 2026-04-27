@@ -22,12 +22,8 @@ export DEBIAN_FRONTEND=noninteractive
 echo "===> WAVE Installer (README-aligned)"
 echo "===> Log: $LOG_FILE"
 
-# -------------------------------
-# Helpers
-# -------------------------------
-
 fail() {
-    echo "❌ ERROR: $1"
+    echo "ERROR: $1"
     exit 1
 }
 
@@ -41,14 +37,14 @@ version_ge() {
 
 require_sudo() {
     if ! sudo -n true 2>/dev/null; then
-        echo "🔐 Sudo required"
+        echo "Sudo required"
         sudo true
     fi
 }
 
-# -------------------------------
-# OS Check
-# -------------------------------
+
+# verificar OS
+
 
 echo "===> Checking OS"
 
@@ -65,16 +61,13 @@ fi
 
 require_sudo
 
-# -------------------------------
+
 # Base update
-# -------------------------------
 
 echo "===> Updating system"
 sudo apt update -y
 
-# -------------------------------
 # Python
-# -------------------------------
 
 echo "===> Checking Python3"
 
@@ -86,9 +79,7 @@ else
     sudo apt install -y python3
 fi
 
-# -------------------------------
 # python3-venv
-# -------------------------------
 
 echo "===> Checking python3-venv"
 
@@ -99,9 +90,8 @@ else
     sudo apt install -y python3-venv
 fi
 
-# -------------------------------
+
 # curl (required for Docker)
-# -------------------------------
 
 echo "===> Checking curl"
 
@@ -109,9 +99,7 @@ if ! command_exists curl; then
     sudo apt install -y curl
 fi
 
-# -------------------------------
 # Docker
-# -------------------------------
 
 echo "===> Checking Docker"
 
@@ -126,21 +114,17 @@ else
     sudo chmod 777 /var/run/docker.sock
 fi
 
-# -------------------------------
 # Docker Compose
-# -------------------------------
 
 echo "===> Checking Docker Compose"
 
 if docker compose version >/dev/null 2>&1; then
     echo "Docker Compose available"
 else
-    echo "⚠️ Docker Compose not detected explicitly (may be bundled)"
+    echo "Docker Compose not detected explicitly (may be bundled)"
 fi
 
-# -------------------------------
 # Docker group
-# -------------------------------
 
 echo "===> Configuring Docker permissions"
 
@@ -148,12 +132,10 @@ if groups "$USER" | grep -q docker; then
     echo "User already in docker group"
 else
     sudo usermod -aG docker "$USER"
-    echo "⚠️ Logout/login required"
+    #echo "Logout/login required"
 fi
 
-# -------------------------------
 # VirtualBox
-# -------------------------------
 
 echo "===> Checking VirtualBox"
 
@@ -162,13 +144,11 @@ if command_exists vboxmanage && ! $FORCE; then
 else
     echo "Installing VirtualBox..."
     sudo apt install -y virtualbox || {
-        echo "⚠️ Install manually: https://www.virtualbox.org/wiki/Linux_Downloads"
+        echo "Install manually: https://www.virtualbox.org/wiki/Linux_Downloads"
     }
 fi
 
-# -------------------------------
 # Vagrant (README METHOD)
-# -------------------------------
 
 echo "===> Checking Vagrant"
 
@@ -188,9 +168,7 @@ else
     sudo apt install -y vagrant
 fi
 
-# -------------------------------
 # Mininet
-# -------------------------------
 
 echo "===> Checking Mininet"
 
@@ -202,17 +180,15 @@ else
     echo "⚠️ Recommended: https://mininet.org/download/"
 fi
 
-# -------------------------------
 # Final validation
-# -------------------------------
 
 echo "===> Validating installation"
 
 python3 --version || fail "Python not working"
 docker --version || fail "Docker not working"
-docker compose version || echo "⚠️ Docker Compose check skipped"
+docker compose version || echo "Docker Compose check skipped"
 vagrant --version || fail "Vagrant not working"
 mn --version || fail "Mininet not working"
 
-echo "===> Installation completed successfully"
-echo "➡️ Next: ./app-compose.sh --start"
+echo "Installation completed successfully"
+echo "Next: ./app-compose.sh --start"
