@@ -58,8 +58,8 @@ WAVE integrates multiple technologies for network experimentation:
 
 To run WAVE, the following dependencies are required:
 
-- **Python 3** (version 3.11 or higher)
-- **Virtualenv** (version 3.11 or higher)
+- **Python 3** (version 3.10 or higher)
+- **Virtualenv** (version 3.10 or higher)
 - **Docker** (version 27.x or higher)
 - **Docker Compose** (version 2.32.x or higher)
 - **Mininet** (installation via the official website is recommended)
