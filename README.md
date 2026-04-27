@@ -245,6 +245,8 @@ It is expected that the containers `wave_app`, `node-exporter`, and `grafana` ar
 
 4. Access the web interface in the browser (use Chrome or Brave):
 
+> [!TIP]
+> If running on a remote server, replace `localhost` with the machine's IP address.
 ```
 http://localhost
 ```
@@ -307,6 +309,8 @@ cd last_wave/wave
 
 3. Access the Web interface (use chrome or brave):
 
+> [!TIP]
+> If running on a remote server, replace `localhost` with the machine's IP address.
 ```
 http://localhost
 ```
