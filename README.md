@@ -96,7 +96,9 @@ chmod +x install.sh
 > [!NOTE]
 > This script requires sudo privileges. You may be prompted for your password during execution.
 
-### Checking if Python3 is installed and it's version:
+### If the script fails, or if you prefer to perform the installation manually, follow the steps below:
+
+#### Checking if Python3 is installed and it's version:
 
 <!-- ![wave-version-python3](./screenshots/wave-version-python32.png) -->
 
@@ -109,7 +111,7 @@ If it is not installed:
 sudo apt update && sudo apt install python3
 ```
 
-### Additionally, the VirtualEnv virtual environment is required:
+#### Additionally, the VirtualEnv virtual environment is required:
 
 <!-- ![wave-version-venv](./screenshots/wave-version-venv2.png) -->
 
@@ -122,7 +124,7 @@ If it is not installed:
 sudo apt update && sudo apt install python3-venv
 ```
 
-### Checking the Docker and docker compose components:
+#### Checking the Docker and docker compose components:
 
 <!-- ![wave-version-docker](./screenshots/wave-version-docker2.png)
 
@@ -148,7 +150,7 @@ sudo sh ./get-docker.sh
 ```
 After installation, you may need to configure permissions and add your user to the docker group.
 
-### Checking what version of Virtualbox is installed:
+#### Checking what version of Virtualbox is installed:
 
 <!-- ![wave-version-virtualbox](./screenshots/wave-version-virtualbox2.png) -->
 
@@ -163,7 +165,7 @@ sudo apt install virtualbox
 ```
 If VirtualBox is not available in the repository, install it from the [official website](https://www.virtualbox.org/wiki/Linux_Downloads).
 
-### Checking what version of Vagrant is installed:
+#### Checking what version of Vagrant is installed:
 
 <!-- ![wave-version-vagrant](./screenshots/wave-version-vagrant2.png) -->
 
@@ -181,7 +183,7 @@ sudo apt update && sudo apt install vagrant
 
 ```
 
-### Checking what version of Mininet is installed
+#### Checking what version of Mininet is installed
 
 <!-- ![wave-version-mininet](./screenshots/wave-version-mininet.png) -->
 
