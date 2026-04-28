@@ -309,7 +309,7 @@ If this is your first execution, the process may take longer because the Vagrant
 
 ![wave-web-grafana](./screenshots/wave-web-grafana2026.png)
 
-If all steps are completed successfully, the environment is ready for use. If any issues are encountered while starting or terminating the environment, we recommend consulting the demonstration videos available in the Project Information section. In particular, the first video provides a complete walkthrough of the tool execution.
+If you prefer a visual walkthrough of this process, you can watch the following [video](https://drive.google.com/file/d/1zQZR1eSVeXidqYWtyl0KJyLb4BZZFsvv/view), It demonstrates the complete workflow, from cloning the repository to executing the tool and visualizing the results.
 
 ## Ending the WAVE Execution
 
