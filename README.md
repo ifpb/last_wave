@@ -86,13 +86,13 @@ No critical risks were identified, provided that the best practices above are fo
 To simplify the setup process and improve reproducibility, we provide an automated installation script that installs and configures all required dependencies. If the script fails for any reason, you can follow the manual step-by-step installation described in this README.
 
 > [!NOTE]
-> Make sure you are inside the cloned repository directory before running the commands below.
+> Ensure you are in the correct directory before executing the commands below. The commands assume that you are inside the project path `last_wave/wave/`, where the `install.sh` script is located.
 
 ```
-cd last_wave/wave
 chmod +x install.sh
 ./install.sh
 ```
+
 > [!NOTE]
 > This script requires sudo privileges. You may be prompted for your password during execution.
 
@@ -258,12 +258,12 @@ It is expected that the containers `wave_app`, `node-exporter`, and `grafana` ar
 
 4. Access the web interface in the browser (use Chrome or Brave):
 
-> [!TIP]
+> [!NOTE]
 > If running on a remote server, replace `localhost` with the machine's IP address.
 ```
 http://localhost
 ```
-> [!WARNING]
+> [!NOTE]
 > Ensure that the required ports (e.g., 80) are open and accessible in your environment (firewall, cloud security groups, or VM networking).
 
 5. Configure a simple experiment:
@@ -324,7 +324,7 @@ cd last_wave/wave
 
 3. Access the Web interface (use chrome or brave):
 
-> [!TIP]
+> [!NOTE]
 > If running on a remote server, replace `localhost` with the machine's IP address.
 ```
 http://localhost
