@@ -372,10 +372,30 @@ WAVE, by design, does not natively compute or expose these metrics directly in i
 
 This architecture allows users to extract and analyze network behavior in a flexible way.
 
-> [!NOTE]
-> Although RTT and detailed throughput metrics are not explicitly labeled in the WAVE interface, they can be derived from the collected metrics (e.g., network interface statistics, packet rates, and latency-related indicators) available in Grafana dashboards.
+---
 
-This design enables users to extend the analysis beyond the default visualization and reproduce the same type of evaluation presented in the paper.
+#### Reproducing Paper Results
+
+The results presented in the paper were obtained by collecting metrics from Prometheus during the experiments and plotting the corresponding graphs externally.
+
+These graphs include:
+
+- Throughput (derived from network interface statistics)
+- Latency-related behavior (indirectly observed through delay impact and timing variations)
+
+Although WAVE does not natively generate these specific plots, the integration with Prometheus and Grafana enables straightforward extraction of the required data, allowing full reproduction of the figures shown in the paper.
+
+---
+
+#### Practical Implication
+
+Users can leverage the collected metrics to:
+
+- Analyze throughput variations over time  
+- Observe the impact of delay on traffic behavior  
+- Infer latency effects (e.g., RTT trends) from the experiment configuration  
+
+This enables a more detailed evaluation aligned with the methodology presented in the paper.
 
 ### Experiment Execution
 
