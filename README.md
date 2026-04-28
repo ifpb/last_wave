@@ -34,6 +34,10 @@ This section provides useful resources related to the WAVE tool, including docum
 [Salão de Ferramentas SBRC 2025 (previous work)](https://doi.org/10.5753/sbrc_estendido.2025.6301)
 
 [Demonstrative videos of the WAVE tool](https://drive.google.com/drive/folders/1E3_Gj1HX8jhLEx9tRARIDYxlm8bzkNN3?usp=drive_link)
+> [!NOTE]
+> The video **demo01-wave** demonstrates how to download, run, and validate the tool.
+> The video **demo02-wave-delay** shows an experiment where delay is injected into the network.
+> The video **demo03-wave-linkdown** presents a scenario in which a network link is disabled to observe traffic interruption at the server interface, followed by re-enabling the link to restore connectivity.
 
 ## Basic information
 
