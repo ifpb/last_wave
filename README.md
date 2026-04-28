@@ -239,7 +239,7 @@ During installation and execution, issues may arise depending on the host enviro
 
 A curated list of common problems and their respective solutions is available in:
 
-[Troubleshooting Guide](docs/troubleshoot.md)
+[Troubleshooting Guide](./docs/troubleshoot.md)
 
 This document includes real issues observed during testing, including known environment-specific problems such as Docker port binding restrictions (`net.ipv4.ip_unprivileged_port_start=80`), among others.
 
