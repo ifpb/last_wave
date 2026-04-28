@@ -104,10 +104,6 @@ Stop the conflicting service or change the port configuration.
 
 - Replace `localhost` with the machine IP:
 
-
-http://<your-ip>
-
-
 - Check open ports:
 
 ```
