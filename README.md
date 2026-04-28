@@ -1,4 +1,4 @@
-# WAVE - Multiple load generator for computer network experimentation
+<img width="1089" height="769" alt="image" src="https://github.com/user-attachments/assets/dce279e6-4d7c-4299-a032-6ab88fa02f36" /><img width="1089" height="769" alt="image" src="https://github.com/user-attachments/assets/ee9731d6-308d-41bd-af63-0e68fed783d9" /># WAVE - Multiple load generator for computer network experimentation
 
 Experimentation is fundamental in computer networks research, especially for validating hypotheses in controlled scenarios. In this context, this work presents a new version of WAVE (Workload Assay for Verified Experiments) integrated with Mininet, a widely used network emulator. This integration allows researchers to have greater control over the network environment where the generated traffic will be evaluated, enabling the configuration of network characteristics such as delay and packet loss. Currently, WAVE supports the linear and tree topologies, which are configured through user-defined parameters, allowing greater flexibility in the creation of experimental scenarios.
 
@@ -354,9 +354,10 @@ http://localhost
 ```
 4. Use the following base configuration:
 
-- Platform: VM
+- Platform: Docker
 - Topology: Linear, Number of switches: 5
 - Workload model: Stair Step, Interval: 5, Jump: 10, Duration: 10
+
 
 Now you will configure scenarios with different delay values. For each scenario, a new environment must be configured, changing only the delay parameter while keeping the remaining settings the same. There is no need to repeat the installation or startup steps, since the Analysis Result screen includes a `Destroy` button that terminates the current environment and returns you to the home page. Once you return to the initial screen, you can configure the next scenario.
 
@@ -366,9 +367,13 @@ Configure:
 
 - Delay: 0 ms
 
+![wave-exper-input-delay](./screenshots/wave-baseline1.png)
+
 Execute the experiment.
 
 Expected result:
+
+![wave-exper-input-delay](./screenshots/wave-baseline2.png)
 
 - The environment should be provisioned successfully
 - The Analysis Result screen should be displayed
@@ -383,6 +388,8 @@ Expected execution time:
 Configure:
 
 - Delay: 10 ms
+  
+![wave-exper-input-delay](./screenshots/wave-delay10ms.png)
 
 Execute the experiment.
 
@@ -401,10 +408,14 @@ Expected execution time:
 Configure:
 
 - Delay: 50 ms
+  
+![wave-exper-input-delay](./screenshots/wave-delay50ms.png)
 
 Execute the experiment.
 
 Expected result:
+
+![wave-exper-input-delay](./screenshots/wave-delay50ms-res.png)
 
 - The Analysis Result screen should be displayed
 - Traffic should continue reaching the server interface
