@@ -372,8 +372,8 @@ WAVE, by design, does not natively compute or expose these metrics directly in i
 
 This architecture allows users to extract and analyze network behavior in a flexible way.
 
-[!NOTE]
-Although RTT and detailed throughput metrics are not explicitly labeled in the WAVE interface, they can be derived from the collected metrics (e.g., network interface statistics, packet rates, and latency-related indicators) available in Grafana dashboards.
+> [!NOTE]
+> Although RTT and detailed throughput metrics are not explicitly labeled in the WAVE interface, they can be derived from the collected metrics (e.g., network interface statistics, packet rates, and latency-related indicators) available in Grafana dashboards.
 
 This design enables users to extend the analysis beyond the default visualization and reproduce the same type of evaluation presented in the paper.
 
