@@ -92,15 +92,12 @@ No critical risks were identified, provided that the best practices above are fo
 To simplify the setup process and improve reproducibility, we provide an automated installation script that installs and configures all required dependencies. If the script fails for any reason, you can follow the manual step-by-step installation described in this README.
 
 > [!NOTE]
-> Ensure you are in the correct directory before executing the commands below. The commands assume that you are inside the project path `last_wave/wave/`, where the `install.sh` script is located.
+> Ensure you are in the correct directory before executing the commands below. The commands assume that you are inside the project path `last_wave/wave/`, where the `install.sh` script is located. This script requires sudo privileges. You may be prompted for your password during execution.
 
 ```
 chmod +x install.sh
 ./install.sh
 ```
-
-> [!NOTE]
-> This script requires sudo privileges. You may be prompted for your password during execution.
 
 ### If the script fails, or if you prefer to perform the installation manually, follow the steps below:
 
