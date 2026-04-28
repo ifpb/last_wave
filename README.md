@@ -2,18 +2,20 @@
 
 Experimentation is fundamental in computer networks research, especially for validating hypotheses in controlled scenarios. In this context, this work presents a new version of WAVE (Workload Assay for Verified Experiments) integrated with Mininet, a widely used network emulator. This integration allows researchers to have greater control over the network environment where the generated traffic will be evaluated, enabling the configuration of network characteristics such as delay and packet loss. Currently, WAVE supports the linear and tree topologies, which are configured through user-defined parameters, allowing greater flexibility in the creation of experimental scenarios.
 
-##  README Structure
+## README Structure
 
 - **Seals Considered**: describes the artifact evaluation criteria.
-- **Project information**: useful links, including user manual, previous work, and demonstration videos.
-- **Basic information**: presents the hardware and software requirements needed for execution.
-- **Dependencies**: lists the tools and libraries used.
-- **Running**: describes how to configure and start the environment.
-- **Security concerns**: describes potential risks and safe execution practices.
-- **Minimum Test**: presents a simple scenario to validate the installation.
-- **Ending the WAVE Execution**: describes how to properly terminate the environment.
-- **Experiments**: describes how to reproduce one of the experiments presented in the paper.
-- **LICENSE**: presents the project license information.
+- **Project Information**: provides useful resources such as documentation, previous work, and demonstration videos.
+- **Basic Information**: outlines hardware and operating system requirements.
+- **Dependencies**: lists required tools and their expected versions.
+- **Security Concerns**: highlights potential risks and safe execution practices.
+- **Checking the Required Requirements**: explains how to install dependencies, including the automated installation script (`install.sh`) and manual fallback steps.
+- **Running**: describes how to start the WAVE environment.
+- **Troubleshooting**: provides guidance for common issues and links to the troubleshooting guide.
+- **Minimum Test**: presents a validation procedure to confirm the correct setup of the environment.
+- **Ending the WAVE Execution**: explains how to properly stop and clean up the environment.
+- **Experiments**: details how to reproduce experiments presented in the paper.
+- **LICENSE**: provides licensing information.
 
 ## Seals Considered
 
@@ -230,6 +232,23 @@ As can be seen in the figure above, the WAVE Initialization module uses two cont
 ![wave-web-home](./screenshots/wave-configurator-2026.png)
 
 The form contains fields for entering network data for both the traffic load source and destination. In addition to specifying the IP address, the user can choose how the environment will be provisioned, either through a container or a virtual machine, with configurable memory size and number of virtual CPUs. It is also possible to configure the network topology through user-defined parameters. Currently, the WAVE supports linear and tree topologies. Finally, the user can select which workload model to apply, such as sinusoid, flashcrowd, or step, and optionally enable the use of micro-burst traffic.
+
+## Troubleshooting
+
+During installation and execution, issues may arise depending on the host environment, system configuration, or network setup.
+
+A curated list of common problems and their respective solutions is available in:
+
+[Troubleshooting Guide](./doc/troubleshoot.md)
+
+This document includes real issues observed during testing, including known environment-specific problems such as Docker port binding restrictions (`net.ipv4.ip_unprivileged_port_start=80`), among others.
+
+> [!IMPORTANT]
+> The number of possible environment-specific issues is large. The troubleshooting guide contains known and reproducible cases, but it is not exhaustive.
+
+> [!NOTE]
+> If you encounter an issue not documented in the troubleshooting guide, please contact the authors.  
+> New issues and their respective solutions will be analyzed and added to improve reproducibility.
 
 ## Minimum Test
 
