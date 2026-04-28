@@ -60,8 +60,6 @@ Docker group permissions not applied yet.
 
 ### Solution
 
-Either:
-
 ```
 newgrp docker
 ```
