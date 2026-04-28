@@ -1,4 +1,4 @@
-<img width="1089" height="769" alt="image" src="https://github.com/user-attachments/assets/dce279e6-4d7c-4299-a032-6ab88fa02f36" /><img width="1089" height="769" alt="image" src="https://github.com/user-attachments/assets/ee9731d6-308d-41bd-af63-0e68fed783d9" /># WAVE - Multiple load generator for computer network experimentation
+# WAVE - Multiple load generator for computer network experimentation
 
 Experimentation is fundamental in computer networks research, especially for validating hypotheses in controlled scenarios. In this context, this work presents a new version of WAVE (Workload Assay for Verified Experiments) integrated with Mininet, a widely used network emulator. This integration allows researchers to have greater control over the network environment where the generated traffic will be evaluated, enabling the configuration of network characteristics such as delay and packet loss. Currently, WAVE supports the linear and tree topologies, which are configured through user-defined parameters, allowing greater flexibility in the creation of experimental scenarios.
 
