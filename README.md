@@ -358,8 +358,28 @@ http://localhost
 - Topology: Linear, Number of switches: 5
 - Workload model: Stair Step, Interval: 5, Jump: 10, Duration: 10
 
+### Important Note on Metrics
 
-Now you will configure scenarios with different delay values. For each scenario, a new environment must be configured, changing only the delay parameter while keeping the remaining settings the same. There is no need to repeat the installation or startup steps, since the Analysis Result screen includes a `Destroy` button that terminates the current environment and returns you to the home page. Once you return to the initial screen, you can configure the next scenario.
+In the original paper, the evaluation considers metrics such as:
+
+- Network throughput (Mbps)
+- Round-Trip Time (RTT)
+
+WAVE, by design, does not natively compute or expose these metrics directly in its interface. Instead, it relies on an observability stack composed of:
+
+- Prometheus (metrics collection)
+- Grafana (visualization)
+
+This architecture allows users to extract and analyze network behavior in a flexible way.
+
+[!NOTE]
+Although RTT and detailed throughput metrics are not explicitly labeled in the WAVE interface, they can be derived from the collected metrics (e.g., network interface statistics, packet rates, and latency-related indicators) available in Grafana dashboards.
+
+This design enables users to extend the analysis beyond the default visualization and reproduce the same type of evaluation presented in the paper.
+
+### Experiment Execution
+
+Now you will configure scenarios with different delay values. For each scenario, a new environment must be configured, changing only the delay parameter while keeping the remaining settings the same. There is no need to repeat the installation or startup steps, since the Analysis Result screen includes a `Destroy` button that terminates the current environment and returns you to the home page.
 
 ### Scenario 1: Baseline
 
@@ -394,6 +414,8 @@ Configure:
 Execute the experiment.
 
 Expected result:
+
+![wave-exper-input-delay](./screenshots/wave-delay10ms-res.png)
 
 - The Analysis Result screen should be displayed
 - Traffic should continue reaching the server interface
@@ -432,10 +454,14 @@ In all scenarios, the **Analysis Results** screen should display:
 - Traffic arriving at the server network interface
 - CPU usage
 - Memory usage
+  
+The expected behavior is that, as the configured delay increases, the amount of Mbps reaching the server interface decreases proportionally. This behavior is consistent with the results presented in the paper and demonstrates that WAVE correctly applies Mininet delay parameters in a reproducible experimental environment. Additionally, by leveraging Prometheus and Grafana, users can further analyze:
 
-The expected behavior is that, as the configured delay increases, the amount of Mbps reaching the server interface decreases proportionally.
+- Throughput variations over time
+- Latency-related effects
+- Resource utilization under different network conditions
 
-This demonstrates that WAVE correctly applies Mininet delay parameters in a reproducible experimental environment.
+This enables a more detailed evaluation aligned with the metrics discussed in the paper.
 
 ## LICENSE
 
