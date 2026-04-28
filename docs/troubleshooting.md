@@ -356,13 +356,3 @@ Ensure internet connectivity before running:
 
 ---
 
-## 18. Unexpected behavior in experiments
-
-### Cause
-
-Different hardware or configuration parameters.
-
-### Solution
-
-- Follow experiment parameters strictly
-- Avoid changing CPU, RAM, or topology unless intended
