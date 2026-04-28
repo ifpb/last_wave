@@ -85,11 +85,16 @@ No critical risks were identified, provided that the best practices above are fo
 
 To simplify the setup process and improve reproducibility, we provide an automated installation script that installs and configures all required dependencies. If the script fails for any reason, you can follow the manual step-by-step installation described in this README.
 
+> [!NOTE]
+> Make sure you are inside the cloned repository directory before running the commands below.
+
 ```
 cd last_wave/wave
 chmod +x install.sh
 ./install.sh
 ```
+> [!NOTE]
+> This script requires sudo privileges. You may be prompted for your password during execution.
 
 ### Checking if Python3 is installed and it's version:
 
@@ -258,6 +263,8 @@ It is expected that the containers `wave_app`, `node-exporter`, and `grafana` ar
 ```
 http://localhost
 ```
+> [!WARNING]
+> Ensure that the required ports (e.g., 80) are open and accessible in your environment (firewall, cloud security groups, or VM networking).
 
 5. Configure a simple experiment:
 
