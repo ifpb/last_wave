@@ -94,6 +94,12 @@ To simplify the setup process and improve reproducibility, we provide an automat
 > [!NOTE]
 > Ensure you are in the correct directory before executing the commands below. The commands assume that you are inside the project path `last_wave/wave/`, where the `install.sh` script is located. This script requires sudo privileges. You may be prompted for your password during execution.
 
+If you're going to use the dependency installation script, you need to do a git clone of the repository first.
+
+```
+git clone https://github.com/ifpb/last_wave.git
+```
+
 ```
 chmod +x install.sh
 ./install.sh
@@ -213,7 +219,7 @@ The versions shown in the figures were those tested at the time of this manual's
 ### Cloning the official repository and starting the system:
 
 ```
-git clone https://github.com/1valcl3b/last_wave.git
+git clone https://github.com/ifpb/last_wave.git
 ```
 ```
 cd last_wave/wave
@@ -260,7 +266,7 @@ This test aims to validate whether the environment has been correctly configured
 1. Clone the repository:
 
 ```
-git clone https://github.com/1valcl3b/last_wave.git
+git clone https://github.com/ifpb/last_wave.git
 cd last_wave/wave
 ```
 
@@ -335,7 +341,7 @@ Make sure all dependencies have been installed.
 1. Clone the repository:
 
 ```
-git clone https://github.com/1valcl3b/last_wave.git
+git clone https://github.com/ifpb/last_wave.git
 cd last_wave/wave
 ```
 
