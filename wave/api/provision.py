@@ -114,6 +114,7 @@ class Provision:
         
         if platform == "docker":
             self.execute_command("docker compose up -d")
+            self.execute_command("docker compose up -d")
             self.wait_container()
 
             script = Path(self.get_script_dir()) / "up-enviroment.sh"
