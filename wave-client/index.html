@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Stats - QoE Dashboard</title>
+
+  <script src="http://localhost:8080/chartjs.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --border: #d9dee5;
+      --text: #1f2933;
+      --muted: #52606d;
+      --title: #102a43;
+      --shadow: 0 1px 3px rgba(16, 42, 67, 0.08);
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      padding: 16px 18px 10px 18px;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--title);
+      letter-spacing: 0.2px;
+    }
+
+    .panel-subtitle {
+      margin: 6px 0 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #9fb3c8;
+    }
+
+    .btn-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: 1px solid #243b53;
+      border-radius: 8px;
+      background: #243b53;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1f3248;
+    }
+
+    video {
+      width: 100%;
+      margin-top: 16px;
+      border-radius: 8px;
+      background: #000;
+      border: 1px solid var(--border);
+    }
+
+    .metrics-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .metric-card {
+      border: 1px solid #e8edf2;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfe;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--title);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .metric-unit {
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+
+    .satisfaction-box {
+      margin-top: 12px;
+      border: 1px solid #e8edf2;
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .satisfaction-title {
+      margin: 0 0 8px 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--muted);
+    }
+
+    .emoji {
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .satisfaction-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--title);
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .chart-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px 10px 14px;
+      min-height: 310px;
+    }
+
+    .chart-title {
+      margin: 0 0 2px 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--title);
+    }
+
+    .chart-subtitle {
+      margin: 0 0 8px 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.35;
+      min-height: 30px;
+    }
+
+    .chart-box {
+      height: 230px;
+    }
+
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    @media (max-width: 1200px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="panel">
+      <div class="panel-header">
+        <h1 class="panel-title">Video Stats</h1>
+        <p class="panel-subtitle">Monitoramento local de reprodução e indicadores de QoE para vídeo MP4.</p>
+      </div>
+
+      <div class="panel-body">
+        <label class="input-label" for="url">Video URL (MP4)</label>
+        <input id="url" type="text" placeholder="Cole a URL do vídeo MP4">
+
+        <div class="btn-row">
+          <button id="loadBtn">Carregar vídeo</button>
+        </div>
+
+        <video id="video" controls loops></video>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Estado</div>
+            <div class="metric-value" id="state">idle</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Resolução</div>
+            <div class="metric-value" id="resolution">-</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Startup Delay</div>
+            <div class="metric-value"><span id="startupDelay">0.000</span><span class="metric-unit">s</span></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">FPS Tocado</div>
+            <div class="metric-value"><span id="fpsNow">0.00</span></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Buffer Local</div>
+            <div class="metric-value"><span id="bufferNow">0.000</span><span class="metric-unit">s</span></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Stall (%)</div>
+            <div class="metric-value"><span id="stallPercentNow">0.000</span><span class="metric-unit">%</span></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Stall Acumulado</div>
+            <div class="metric-value"><span id="stallTimeNow">0.000</span><span class="metric-unit">s</span></div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">QoE Atual</div>
+            <div class="metric-value"><span id="qoeNow">0.000</span></div>
+          </div>
+        </div>
+
+        <div class="satisfaction-box">
+          <p class="satisfaction-title">Satisfação do Usuário</p>
+          <span id="qoeEmoji" class="emoji">😀</span>
+          <div id="qoeLabel" class="satisfaction-label">Excelente</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <div class="chart-card">
+        <h2 class="chart-title">FPS tocado</h2>
+        <p class="chart-subtitle">Taxa estimada de frames efetivamente renderizados ao longo da sessão.</p>
+        <div class="chart-box">
+          <canvas id="fpsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h2 class="chart-title">Buffer local do player</h2>
+        <p class="chart-subtitle">Quantidade de mídia disponível localmente para reprodução contínua.</p>
+        <div class="chart-box">
+          <canvas id="bufferChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h2 class="chart-title">Percentual de video stall</h2>
+        <p class="chart-subtitle">Relação entre o tempo acumulado em stall e o tempo total decorrido da sessão.</p>
+        <div class="chart-box">
+          <canvas id="stallChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h2 class="chart-title">QoE agregado</h2>
+        <p class="chart-subtitle">Indicador sintético baseado em startup delay, stall, buffer local e FPS tocado.</p>
+        <div class="chart-box">
+          <canvas id="qoeChart"></canvas>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const loadBtn = document.getElementById("loadBtn");
+    const urlInput = document.getElementById("url");
+
+    const stateEl = document.getElementById("state");
+    const resolutionEl = document.getElementById("resolution");
+    const startupDelayEl = document.getElementById("startupDelay");
+    const fpsNowEl = document.getElementById("fpsNow");
+    const bufferNowEl = document.getElementById("bufferNow");
+    const stallTimeNowEl = document.getElementById("stallTimeNow");
+    const stallPercentNowEl = document.getElementById("stallPercentNow");
+    const qoeNowEl = document.getElementById("qoeNow");
+    const qoeEmojiEl = document.getElementById("qoeEmoji");
+    const qoeLabelEl = document.getElementById("qoeLabel");
+
+    let sessionStart = null;
+    let firstPlayingTime = null;
+    let startupDelay = 0;
+
+    let stallStart = null;
+    let totalStallTime = 0;
+
+    let sampleIndex = 0;
+    const maxPoints = 90;
+
+    let lastSampleTimestamp = null;
+    let lastTotalFrames = null;
+
+    function setState(value) {
+      stateEl.textContent = value;
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function trimChartData(chart) {
+      while (chart.data.labels.length > maxPoints) {
+        chart.data.labels.shift();
+        chart.data.datasets.forEach(ds => ds.data.shift());
+      }
+    }
+
+    function addData(chart, label, values) {
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset, i) => {
+        dataset.data.push(values[i]);
+      });
+      trimChartData(chart);
+      chart.update("none");
+    }
+
+    function getBufferedSeconds(videoEl) {
+      const current = videoEl.currentTime;
+      const ranges = videoEl.buffered;
+
+      for (let i = 0; i < ranges.length; i++) {
+        const start = ranges.start(i);
+        const end = ranges.end(i);
+
+        if (current >= start && current <= end) {
+          return Math.max(0, end - current);
+        }
+      }
+      return 0;
+    }
+
+    function computePlayedFPS(totalFrames, nowMs) {
+      if (lastSampleTimestamp === null || lastTotalFrames === null) {
+        lastSampleTimestamp = nowMs;
+        lastTotalFrames = totalFrames;
+        return 0;
+      }
+
+      const deltaTimeSec = (nowMs - lastSampleTimestamp) / 1000;
+      const deltaFrames = totalFrames - lastTotalFrames;
+
+      lastSampleTimestamp = nowMs;
+      lastTotalFrames = totalFrames;
+
+      if (deltaTimeSec <= 0) return 0;
+      return Math.max(0, deltaFrames / deltaTimeSec);
+    }
+
+    function computeStallPercent(elapsedSec, totalStallSec) {
+      if (elapsedSec <= 0) return 0;
+      return (100 * totalStallSec) / elapsedSec;
+    }
+
+    function computeQoE({ startupDelay, stallPercent, bufferedSeconds, fpsPlayed }) {
+      const startupPenalty = 0.10 * startupDelay;
+      const stallPenalty = 0.07 * stallPercent;
+
+      let bufferBonus = 0;
+      if (bufferedSeconds >= 5) bufferBonus = 0.45;
+      else if (bufferedSeconds >= 2) bufferBonus = 0.25;
+      else if (bufferedSeconds >= 1) bufferBonus = 0.10;
+
+      let fpsBonus = 0;
+      if (fpsPlayed >= 24) fpsBonus = 0.45;
+      else if (fpsPlayed >= 15) fpsBonus = 0.25;
+      else if (fpsPlayed >= 8) fpsBonus = 0.10;
+
+      const score = 3.8 + bufferBonus + fpsBonus - startupPenalty - stallPenalty;
+      return clamp(score, 1.0, 5.0);
+    }
+
+    function getQoEEmoji(score) {
+      if (score >= 4.5) return { emoji: "😀", label: "Excelente" };
+      if (score >= 3.8) return { emoji: "🙂", label: "Boa" };
+      if (score >= 3.0) return { emoji: "😐", label: "Regular" };
+      if (score >= 2.0) return { emoji: "😟", label: "Ruim" };
+      return { emoji: "😫", label: "Muito ruim" };
+    }
+
+    const commonOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          labels: {
+            boxWidth: 10,
+            color: "#334e68",
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          bodyColor: "#102a43",
+          titleColor: "#102a43",
+          backgroundColor: "rgba(255,255,255,0.96)",
+          borderColor: "#d9dee5",
+          borderWidth: 1
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "#52606d",
+            maxTicksLimit: 8,
+            font: { size: 10 }
+          },
+          grid: {
+            color: "rgba(217, 222, 229, 0.45)"
+          }
+        },
+        y: {
+          ticks: {
+            color: "#52606d",
+            font: { size: 10 }
+          },
+          grid: {
+            color: "rgba(217, 222, 229, 0.45)"
+          }
+        }
+      }
+    };
+
+    const fpsChart = new Chart(document.getElementById("fpsChart"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          label: "FPS tocado",
+          data: [],
+          borderWidth: 2,
+          tension: 0.2,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        ...commonOptions,
+        scales: {
+          x: {
+            ...commonOptions.scales.x,
+            title: { display: true, text: "Amostra", color: "#52606d", font: { size: 11 } }
+          },
+          y: {
+            ...commonOptions.scales.y,
+            min: 0,
+            title: { display: true, text: "FPS", color: "#52606d", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    const bufferChart = new Chart(document.getElementById("bufferChart"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Buffer local (s)",
+          data: [],
+          borderWidth: 2,
+          tension: 0.2,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        ...commonOptions,
+        scales: {
+          x: {
+            ...commonOptions.scales.x,
+            title: { display: true, text: "Amostra", color: "#52606d", font: { size: 11 } }
+          },
+          y: {
+            ...commonOptions.scales.y,
+            min: 0,
+            title: { display: true, text: "Segundos", color: "#52606d", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    const stallChart = new Chart(document.getElementById("stallChart"), {
+      type: "bar",
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Stall (%)",
+          data: [],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        ...commonOptions,
+        scales: {
+          x: {
+            ...commonOptions.scales.x,
+            title: { display: true, text: "Amostra", color: "#52606d", font: { size: 11 } }
+          },
+          y: {
+            ...commonOptions.scales.y,
+            min: 0,
+            max: 100,
+            title: { display: true, text: "Percentual (%)", color: "#52606d", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    const qoeChart = new Chart(document.getElementById("qoeChart"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          label: "QoE agregado (1-5)",
+          data: [],
+          borderWidth: 2,
+          tension: 0.2,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        ...commonOptions,
+        scales: {
+          x: {
+            ...commonOptions.scales.x,
+            title: { display: true, text: "Amostra", color: "#52606d", font: { size: 11 } }
+          },
+          y: {
+            ...commonOptions.scales.y,
+            min: 1,
+            max: 5,
+            title: { display: true, text: "QoE", color: "#52606d", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    function resetMetrics() {
+      sessionStart = performance.now();
+      firstPlayingTime = null;
+      startupDelay = 0;
+      stallStart = null;
+      totalStallTime = 0;
+      sampleIndex = 0;
+      lastSampleTimestamp = null;
+      lastTotalFrames = null;
+
+      startupDelayEl.textContent = "0.000";
+      fpsNowEl.textContent = "0.00";
+      bufferNowEl.textContent = "0.000";
+      stallTimeNowEl.textContent = "0.000";
+      stallPercentNowEl.textContent = "0.000";
+      qoeNowEl.textContent = "0.000";
+      resolutionEl.textContent = "-";
+      qoeEmojiEl.textContent = "😀";
+      qoeLabelEl.textContent = "Excelente";
+      setState("loading");
+
+      [fpsChart, bufferChart, stallChart, qoeChart].forEach(chart => {
+        chart.data.labels = [];
+        chart.data.datasets.forEach(ds => ds.data = []);
+        chart.update();
+      });
+    }
+
+    loadBtn.addEventListener("click", () => {
+      const url = urlInput.value.trim();
+      if (!url) return;
+      resetMetrics();
+      video.src = url;
+      video.load();
+    });
+
+    video.addEventListener("loadedmetadata", () => {
+      resolutionEl.textContent = `${video.videoWidth}x${video.videoHeight}`;
+    });
+
+    video.addEventListener("play", () => setState("play"));
+
+    video.addEventListener("playing", () => {
+      setState("playing");
+
+      if (firstPlayingTime === null && sessionStart !== null) {
+        firstPlayingTime = performance.now();
+        startupDelay = (firstPlayingTime - sessionStart) / 1000;
+        startupDelayEl.textContent = startupDelay.toFixed(3);
+      }
+
+      if (stallStart !== null) {
+        totalStallTime += (performance.now() - stallStart) / 1000;
+        stallStart = null;
+      }
+    });
+
+    video.addEventListener("waiting", () => {
+      setState("buffering");
+      if (stallStart === null) {
+        stallStart = performance.now();
+      }
+    });
+
+    video.addEventListener("pause", () => setState("paused"));
+    video.addEventListener("ended", () => setState("ended"));
+    video.addEventListener("error", () => setState("error"));
+
+    setInterval(() => {
+      if (!video.src) return;
+
+      const now = performance.now();
+      resolutionEl.textContent = `${video.videoWidth || 0}x${video.videoHeight || 0}`;
+
+      let totalFrames = 0;
+      if (typeof video.getVideoPlaybackQuality === "function") {
+        const q = video.getVideoPlaybackQuality();
+        totalFrames = q.totalVideoFrames || 0;
+      }
+
+      const fpsPlayed = computePlayedFPS(totalFrames, now);
+      const bufferedSeconds = getBufferedSeconds(video);
+
+      let liveTotalStallTime = totalStallTime;
+      if (stallStart !== null) {
+        liveTotalStallTime += (now - stallStart) / 1000;
+      }
+
+      const elapsedSec = sessionStart ? (now - sessionStart) / 1000 : 0;
+      const stallPercent = computeStallPercent(elapsedSec, liveTotalStallTime);
+
+      const qoeScore = computeQoE({
+        startupDelay,
+        stallPercent,
+        bufferedSeconds,
+        fpsPlayed
+      });
+
+      const mood = getQoEEmoji(qoeScore);
+
+      fpsNowEl.textContent = fpsPlayed.toFixed(2);
+      bufferNowEl.textContent = bufferedSeconds.toFixed(3);
+      stallTimeNowEl.textContent = liveTotalStallTime.toFixed(3);
+      stallPercentNowEl.textContent = stallPercent.toFixed(3);
+      qoeNowEl.textContent = qoeScore.toFixed(3);
+      qoeEmojiEl.textContent = mood.emoji;
+      qoeLabelEl.textContent = mood.label;
+
+      sampleIndex += 1;
+      const label = sampleIndex.toString();
+
+      addData(fpsChart, label, [Number(fpsPlayed.toFixed(2))]);
+      addData(bufferChart, label, [Number(bufferedSeconds.toFixed(3))]);
+      addData(stallChart, label, [Number(stallPercent.toFixed(3))]);
+      addData(qoeChart, label, [Number(qoeScore.toFixed(3))]);
+    }, 1000);
+  </script>
+</body>
+</html>

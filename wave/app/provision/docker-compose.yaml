@@ -2,22 +2,22 @@ services:
   apache:
     image: ghcr.io/ifpb/new_wave/wave-apache
     # build:
-    #   context: .
+    #   context: ../../../wave-server
     #   dockerfile: Dockerfile.server
     container_name: server
-    #ports:
-    #- "80:80"
+    # ports:
+    # - "6660:80"
     # network_mode: none
 
   client_container:
     image: ghcr.io/1valcl3b/last_wave-client:latest
-    #build:
-      #context: ../../../wave-client
-      #dockerfile: Dockerfile
+    # build:
+      # context: ../../../wave-client
+      # dockerfile: Dockerfile
     container_name: client
     privileged: true
-    #environment:
-      #- DISPLAY=${DISPLAY}
+    # environment:
+    #   - DISPLAY=${DISPLAY}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./logs:/home/vlc/logs

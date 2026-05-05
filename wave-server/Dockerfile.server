@@ -1,0 +1,13 @@
+FROM ghcr.io/ifpb/new_wave/wave-apache 
+
+USER root 
+
+
+RUN apt-get update && \ 
+    apt-get install -y --no-install-recommends \ 
+    iproute2 \ 
+    tcpdump \
+    iputils-ping \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --chown=root:root . /usr/local/apache2/htdocs

@@ -17,13 +17,17 @@ RUN apt-get update && \
         tcpdump \
         iproute2 \
         iputils-ping \
+        firefox-esr \
+        chromium \
+        curl \
+
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/vlc
 
 COPY --chown=vlc:vlc . /home/vlc
 
-RUN mkdir -p /home/vlc/logs && chmod -R +777 /home/vlc/logs
+RUN mkdir -p /home/vlc/logs && chmod -R +777 /home/vlc/logs && chmod +x /home/vlc/test-sbrc2026.sh
 
 USER vlc
 
